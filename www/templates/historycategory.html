@@ -1,0 +1,59 @@
+
+<ion-view cache-view="false">
+
+  <ion-content class="no-header login" scroll="false">
+
+    <div class="roll_content_c">
+
+
+
+      <div class="roll_content_wrap">
+        <div class="roll_bottom_wrap_inner roll_page_h_cate">
+
+          <div class="roll_page_c_t_wrap">
+            <div class="roll_page_c_t_wrap_inner">
+              <div class="roll_c_title">教师姓名: {{teacherName}}</div>
+              <div class="category_title"><button class="btn btn-large btn_primary category_title_btn">{{historyCurrentItem.className}}</button></div>
+            </div>
+          </div>
+
+          <div class="roll_page_c_b_wrap">
+            <div class="roll_page_c_b_wrap_inner">
+              <button ng-click="goSearchHistory();" class="btn btn-large btn_third">返&nbsp;&nbsp;&nbsp;&nbsp;回</button>
+            </div>
+
+          </div>
+
+
+          <div  id="scroll_category_list" class="category_list">
+
+            <div class="category_list_inner">
+              <div class="connect_icon left_connect_icon">
+                <img src="img/timeattendanceapp25.png" alt="" />
+              </div>
+              <div class="connect_icon right_connect_icon">
+                <img src="img/timeattendanceapp25.png" alt="" />
+              </div>
+
+              <div id="category_c_list" class="category_list_c">
+                <ul class="category_l_c">
+                  <li class="category_l_i" ng-click="goHistoryDetail(historyCurrentItem.classID, item)" ng-repeat="item in historyCurrentItem.callTimes">
+                    <div  class="category_l_i_c">{{item}}</div>
+                  </li>
+                </ul>
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </div>
+  </ion-content>
+
+</ion-view>

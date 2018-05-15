@@ -1,0 +1,76 @@
+
+<ion-view cache-view="false">
+
+  <ion-content class="no-header login" scroll="false">
+
+    <div class="roll_content_c">
+
+
+
+      <div class="roll_content_wrap">
+        <div class="roll_bottom_wrap_inner roll_page_search">
+
+          <div class="roll_page_c_t_wrap">
+            <div class="roll_page_c_t_wrap_inner home_page_top">
+              <div class="roll_c_title">教师姓名: {{teacherName}}</div>
+            </div>
+          </div>
+
+          <div class="roll_page_c_b_wrap">
+            <div class="roll_page_c_b_wrap_inner">
+              <button ng-click="goHistoryList()" class="btn btn-large btn_primary">查 询</button>
+            </div>
+
+          </div>
+
+
+          <div  id="scroll_list_search" class="scroll_list">
+
+            <ul class="search_list row clearfix">
+              <li class="col-40 left_title">
+                期间选择
+              </li>
+              <li class="col-60 right_title">
+                课程选择
+              </li>
+
+            </ul>
+            <ul class="search_list row clearfix">
+              <li class="col-40 left_content">
+                <div class="search_item" ng-class="{'active':selectDate=='OneMonthHistClass'}" ng-click="changeSelectDate('OneMonthHistClass')">
+                  <div class="search_item_inner">1个月</div>
+                </div>
+                <div class="search_item" ng-class="{'active':selectDate=='threeMonthHistClass'}" ng-click="changeSelectDate('threeMonthHistClass')">
+                  <div class="search_item_inner">3个月</div>
+                </div>
+                <div class="search_item" ng-class="{'active':selectDate=='halfYearHistClass'}" ng-click="changeSelectDate('halfYearHistClass')">
+                  <div class="search_item_inner">半年</div>
+                </div>
+                <div class="search_item" ng-class="{'active':selectDate=='oneYearHistClass'}" ng-click="changeSelectDate('oneYearHistClass')">
+                  <div class="search_item_inner">1年</div>
+                </div>
+              </li>
+              <li class="col-60 right_content">
+                <div ng-show="currentClassItem.length==0 && selectDate!=''" class="havenotclass">
+                暂无课程
+                </div>
+                <div class="search_item" ng-repeat="item in currentClassItem" ng-init="c_index=$index" ng-click="selectCurrentClass(item.classID, c_index)" ng-class="{'active':(item.classID==selectClassId)}">
+                  <div class="search_item_inner">{{item.className}}</div>
+                </div>
+
+
+              </li>
+
+            </ul>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </div>
+  </ion-content>
+
+</ion-view>

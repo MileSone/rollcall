@@ -1,0 +1,70 @@
+
+<ion-view cache-view="false">
+
+  <ion-content class="no-header login" scroll="false">
+
+    <div class="roll_content_c">
+
+
+
+      <div class="roll_content_wrap">
+        <div class="roll_bottom_wrap_inner">
+          <div class="sign_page_content">
+            <div class="call_person_list">
+
+              <div class="person_item">
+                <div class="person_wrap">
+                  <div class="first_circle"></div>
+                  <div class="second_circle"></div>
+                  <div class="bg_circle">
+                  </div>
+
+                  <div id="person_name_list" class="person_name">
+                    <div class="person_name_inner">{{stu.stuName}}</div>
+
+
+                  </div>
+
+                  <div class="empty_circle">
+                    <img src="img/round_empty.png" alt="" />
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+            <div class="sign_buttons row">
+
+
+            </div>
+          </div>
+
+
+          <div class="sign_bottom_wrap">
+            <div class="user_sign_status"ng-class="{cd_status: currentVal == 2, zd_status: currentVal == 1,kk_status: currentVal == 3}"></div>
+            <div class="sign_bottom_wrap_inner singe_bottom">
+
+
+              <div class="sign_btn sign_btn_a" ng-click="setSign(1);">
+                <img src="img/timeattendanceapp37.png" alt="" />
+              </div>
+              <div class="sign_btn sign_btn_b" ng-click="setSign(3);">
+                <img src="img/timeattendanceapp38.png" alt="" />
+              </div>
+
+              <div class="sign_btn sign_btn_c" ng-click="setSign(2);">
+                <img src="img/timeattendanceapp39.png" alt="" />
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </ion-content>
+
+</ion-view>
