@@ -915,8 +915,7 @@ angular.module('rollcall.controllers', [])
     $scope.$watch('$viewContentLoaded',function(){
       // 初始化地图
       console.log('DetailCtrl');
-      // console.log($('#home_content').height());
-      // console.log($(window).height());
+
     });
   })
   .controller('SignStateCtrl', function($scope, $timeout,$state ,$stateParams,$window, $rootScope, ENVIRONMENT) {
