@@ -1,0 +1,66 @@
+
+<ion-view cache-view="false">
+
+  <ion-content class="no-header login" scroll="false">
+
+    <div class="roll_content_c">
+
+
+
+      <div class="roll_content_wrap">
+        <div class="roll_bottom_wrap_inner roll_page_content">
+
+          <div class="roll_page_c_t_wrap">
+            <div class="roll_page_c_t_wrap_inner home_page_top">
+              <div class="roll_c_title">教师姓名: {{teacherName}}</div>
+              <div class="plr-20 roll_c_top_btns mt-15">
+              <ul class="row">
+                <li class="col-50"><button class="btn btn_primary">常规点名</button></li>
+                <li class="col-50"><button class="btn btn_second">批量点名</button></li>
+              </ul>
+            </div>
+
+            </div>
+          </div>
+
+          <div class="roll_page_c_b_wrap">
+            <div class="roll_page_c_b_wrap_inner">
+              <button class="btn btn-large btn_primary">点名历史浏览</button>
+            </div>
+
+          </div>
+
+
+
+          <!--<div class="roll_user_icon">-->
+            <!--<img src="../img/rollcallapp-24.png" alt=""/>-->
+          <!--</div>-->
+
+
+          <!--<div ng-hide="haveListContent" class="havenotclass">-->
+            <!--您还没有可以签到的课程-->
+          <!--</div>-->
+
+          <div ng-show="haveListContent" id="scroll_list" class="scroll_list">
+            <div id="scroll_list_scroll">
+              <ul class="call_list">
+                <li class="call_li" ng-repeat="item in classItems" on-finish-render-filters>
+                  <!--<a ng-href="#/app/signlist/{{item.classID}}">-->
+                  <div class="call_item" ng-click="gotoNextPage(item.ckey, item.exist)">
+                    <div class="call_title">{{item.className}}</div>
+                    <div class="call_rightcontent">{{$index+1}}</div>
+                  </div>
+                  <!--</a>-->
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </ion-content>
+
+</ion-view>

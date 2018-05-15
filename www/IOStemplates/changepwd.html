@@ -1,0 +1,72 @@
+
+<ion-view cache-view="false">
+
+  <ion-content class="no-header login" scroll="false">
+
+    <div class="roll_content_c change_pwd">
+
+
+
+      <div class="roll_content_wrap">
+        <div class="roll_bottom_wrap_inner">
+          <div class="login_c_wrap">
+
+            <div class="login_content ">
+              <div class="login_item">
+                <div class="login_item_left">
+                  <div  class="login_item_left_inner"><img src="../img/timeattendanceapp13.png" alt=""/></div>
+                </div>
+                <div class="login_item_right"><input tabindex="-1" type="text" name="username" id="username" ng-model="user.username" placeholder="账号" /> </div>
+              </div>
+
+              <div class="login_item top_line mt-10">
+                <div class="login_item_left">
+                  <div  class="login_item_left_inner"><img class="bottom_img" src="../img/timeattendanceapp14.png" alt=""/></div>
+                </div>
+                <div class="login_item_right"><input type="password" name="password" id="password" ng-model="user.oldPwd" placeholder="原登录密码" />  </div>
+              </div>
+
+              <div class="login_item top_line mt-10">
+                <div class="login_item_left">
+                  <div  class="login_item_left_inner"><img class="bottom_img" src="../img/timeattendanceapp14.png" alt=""/></div>
+                </div>
+                <div class="login_item_right"><input type="password" name="password" id="passwordNew" ng-model="user.newPwd" placeholder="新登录密码" />  </div>
+              </div>
+
+              <div class="login_item top_line mt-10">
+                <div class="login_item_left">
+                  <div  class="login_item_left_inner"><img class="bottom_img" src="../img/timeattendanceapp14.png" alt=""/></div>
+                </div>
+                <div class="login_item_right"><input type="password" name="password" id="passwordRep" ng-model="user.newPwd2" placeholder="确认新密码" /></div>
+              </div>
+
+
+            </div>
+            <div class="error-message" ng-show="errorMessage!=''">* <span class="error_message" ng-bind="errorMessage"></span></div>
+
+
+            <div class="success-message" ng-show="successMessage!=''"><span class="error_message" ng-bind="successMessage"></span></div>
+
+            <div class="login_btn_wrap">
+              <div class="save_pwd forgetpassword">
+                <button class="login_btn login_btn_red" ng-click="changePassWord();">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <div class="login_bottom">
+            <span class="bottom_content">版权所有:吉林艺术学院</span>
+            <span class="bottom_content">JILIN UNIVERSITY OF ARTS</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </ion-content>
+
+</ion-view>

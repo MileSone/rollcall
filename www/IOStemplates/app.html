@@ -1,0 +1,51 @@
+<!--<ion-nav-bar class="bar-stable">-->
+
+<!--<div class="top_wrap">-->
+  <!--<div class="login_top">-->
+    <!--<img src="../img/timeattendanceapp-04.png" alt="" />-->
+  <!--</div>-->
+
+<!--</div>-->
+<!--</ion-nav-bar>-->
+
+<!--<div class="top_wrap">-->
+  <!--<div class="login_top">-->
+    <!--<img src="../img/timeattendanceapp-04.png" alt="" />-->
+  <!--</div>-->
+
+<!--</div>-->
+<div class="roll_page_top_wrap" ng-class="{small: smallTitle==1, xsmall:smallTitle==2}">
+  <div class="top_wrap">
+    <div class="roll_top_c_w">
+      <div class="left_image">
+        <div class="left_image_inner">
+          <img src="../img/timeattendanceapp03.png" alt="" />
+        </div>
+
+      </div>
+      <div class="right_image">
+        <div class="right_image_img">
+          <div class="right_image_inner">
+            <img src="../img/timeattendanceapp06.png" alt="" />
+          </div>
+
+        </div>
+        <div class="right_image_img">
+          <div class="right_image_inner">
+            <img ng-click="logout()" src="../img/timeattendanceapp07.png" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="showTitle" class="top_b_header">
+        <span class="top_b_header_title" ng-bind="currentTitle"></span>
+      </div>
+
+      <div ng-if="!showTitle && !smallTitle" class="roll_user_icon">
+        <img src="../img/timeattendanceapp24.png" alt=""/>
+      </div>
+    </div>
+
+  </div>
+</div>
+<ion-nav-view id="main-view" name="main-view" ></ion-nav-view>
