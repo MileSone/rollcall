@@ -914,7 +914,7 @@ angular.module('rollcall.controllers', [])
   .controller('DetailCtrl', function($rootScope,$scope) {
     $scope.$watch('$viewContentLoaded',function(){
       // 初始化地图
-      console.log('DetailCtrl');
+      // console.log('DetailCtrl');
 
     });
   })
