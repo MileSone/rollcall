@@ -919,7 +919,7 @@ angular.module('rollcall.controllers', [])
       // console.log($(window).height());
     });
   })
-  .controller('SignStateCtrl', function($scope, $timeout,$state ,$stateParams,$window, $rootScope) {
+  .controller('SignStateCtrl', function($scope, $timeout,$state ,$stateParams,$window, $rootScope, ENVIRONMENT) {
     console.log('SignStateCtrl');
 
 
@@ -934,6 +934,7 @@ angular.module('rollcall.controllers', [])
 
       // $scope.cid = $stateParams.cid;
       // $scope.ctime = $stateParams.ctime;
+
 
 
     $scope.studentsList = [];
@@ -1049,6 +1050,12 @@ angular.module('rollcall.controllers', [])
     $scope.$watch('$viewContentLoaded',function(){
       // 初始化地图
       console.log('SignStateCtrl');
+      if(ENVIRONMENT == 'prod'){
+        console.log('prod');
+        $('#roll_content_status').height($(window).height());
+      }else{
+        console.log('test');
+      }
       // console.log($('#home_content').height());
       // console.log($(window).height());
       //resizeListContent();
