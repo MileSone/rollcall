@@ -61,6 +61,8 @@ var app = angular.module('rollcall', ['ionic', 'rollcall.controllers', 'rollcall
     }, 101);
   })
 
+  .constant('ENVIRONMENT', 'prod')
+
   .constant('SERVER_URL', {
 
     path: 'http://jlartdm.kaiwait.com/index.php'
