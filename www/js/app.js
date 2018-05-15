@@ -77,7 +77,7 @@ var app = angular.module('rollcall', ['ionic', 'rollcall.controllers', 'rollcall
     setStudentsCallList: '/RollCallService/setStudentsCallList'
   })
 
-
+π
   .config(function($ionicNativeTransitionsProvider){
     $ionicNativeTransitionsProvider.setDefaultOptions({
       duration: 100, // in milliseconds (ms), default 400,
