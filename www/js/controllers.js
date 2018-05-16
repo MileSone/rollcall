@@ -53,9 +53,7 @@ angular.module('rollcall.controllers', [])
 
   })
   .controller('LoginCtrl', function($rootScope, $scope, $state,$window, $timeout, $location,$ionicLoading, Login) {
-    // $timeout(function(){
-    //   $state.go('app.home');
-    // }, 3000);
+
     $rootScope.classCategoryInfos = null;
     $rootScope.currentClassCategoryInfos = [];
     $rootScope.currentTitle = '';
@@ -67,18 +65,23 @@ angular.module('rollcall.controllers', [])
     $scope.errorMessage = "";
     $rootScope.classItems = null;
     $rootScope.userName = "";
+    $scope.splash = true;
 
     $scope.user = {
       "username":"王卓",
       "pwd":"1234"
     };
 
+    var mySplashScreen = document.getElementById('custom-overlay');
+    setTimeout(function(){
+      mySplashScreen.className += " hideAnima";
+    },2300);
 
+    setTimeout(function(){
+      mySplashScreen.style.display = 'none';
+    },2600);
 
     $scope.login = function(){
-
-
-
       $scope.loginErrorMessage = false;
       $scope.errorMessage = '';
       if($scope.user.username==""){

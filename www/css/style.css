@@ -1414,10 +1414,10 @@ ul.state_list_ul {
 }
 
 .login_c_wrap{
-  padding:30px;
+  padding: 40px 50px 20px 50px;
 }
 .login_btn_wrap{
-  padding: 0 5%;
+  /*padding: 0 5%;*/
 }
 
 .roll_content_wrap{
