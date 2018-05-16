@@ -673,7 +673,7 @@
     width:90px;
   }
   .sign_buttons{
-    margin-top: 4%;
+    margin-top: 2%;
   }
 }
 
@@ -685,7 +685,7 @@
     width:90px;
   }
   .sign_buttons{
-    margin-top: 2%;
+    margin-top: 1%;
   }
   .person_name{
     font-size: 36px;
@@ -1082,7 +1082,7 @@ ul.state_list_ul {
   position: relative;
   width:100%;
   height:100%;
-  padding-top:50%;
+  /*padding-top:50%;*/
   background-color: #f8f8f8;
 
 }
@@ -1356,6 +1356,8 @@ ul.state_list_ul {
 .roll_c_top_btns img{
   width:100%;
 }
+
+
 .roll_bottom_wrap_inner .login_bottom {
   position: absolute;
   padding: 30px 0;
@@ -1365,6 +1367,10 @@ ul.state_list_ul {
   left: 0px;
   color: #4a423a;
 }
+
+/*.keyboard-open .roll_bottom_wrap_inner .login_bottom{*/
+  /*display:none;*/
+/*}*/
 
 .roll_bottom_wrap_inner .login_bottom span{
   display:block;
@@ -1702,14 +1708,14 @@ ul.state_list_ul {
 
 .person_desc{
   width:100%;
-  margin-top:5px;
+  margin-top:0px;
 }
 
 .sign_bottom_wrap{
   position: absolute;
   width: 100%;
   left: 0px;
-  bottom: 0px;
+  bottom: 20px;
   z-index: 10;
 
 
@@ -1719,7 +1725,7 @@ ul.state_list_ul {
 
 .sign_bottom_wrap_inner{
   position: relative;
-  width:65%;
+  width:59%;
   height: 60px;
   background: url(../img/timeattendanceapp40.png);
   background-size: cover;
@@ -1736,7 +1742,7 @@ ul.state_list_ul {
 .sign_bottom_wrap_inner .sign_btn{
   position: absolute;
   bottom: -5px;
-  width: 76px;
+  width: 70px;
   z-index: 1;
 }
 .sign_bottom_wrap_inner .sign_btn img{
@@ -1753,9 +1759,23 @@ ul.state_list_ul {
 
 .sign_bottom_wrap_inner .sign_btn.sign_btn_c{
   left: 50%;
-  margin-left: -40px;
+  margin-left: -35px;
 }
 
+
+@media screen and (min-width: 414px){
+
+  .sign_page_content{
+    padding-top:4%;
+  }
+  .sign_bottom_wrap_inner .sign_btn{
+    width: 80px;
+
+  }
+  .sign_bottom_wrap_inner .sign_btn.sign_btn_c{
+    margin-left: -40px;
+  }
+}
 
 .search_name_wrap{
   padding:20px 25px;
@@ -1837,18 +1857,19 @@ input.search_name_input{
 
 .no_data .no_data_inner{
   padding:15px 0px;
-  color:#ffffff;
+  /*color:#ffffff;*/
+  color:#bfbfbf;
   border-radius: 10px;
 }
 
 .no_data.no_cd_data .no_data_inner{
-  background-color: #a97c50;
+  /*background-color: #a97c50;*/
 }
 .no_data.no_zd_data .no_data_inner{
-  background-color: #9c5b74;
+  /*background-color: #9c5b74;*/
 }
 .no_data.no_kk_data .no_data_inner{
-  background-color: #838e93;
+  /*background-color: #838e93;*/
 }
 
 

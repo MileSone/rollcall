@@ -29,7 +29,7 @@ angular.module('rollcall.controllers', [])
     };
 
     $rootScope.logout = function(){
-      console.log('logout');
+      // console.log('logout');
       $state.go('login');
     };
 
@@ -52,8 +52,7 @@ angular.module('rollcall.controllers', [])
 
 
   })
-  .controller('LoginCtrl', function($rootScope, $scope, $state,$window, $timeout, $location,$ionicLoading, Login) {
-
+  .controller('LoginCtrl', function($rootScope, $scope, $state,$window, $timeout, $location,$ionicLoading, Login, ENVIRONMENT) {
     $rootScope.classCategoryInfos = null;
     $rootScope.currentClassCategoryInfos = [];
     $rootScope.currentTitle = '';
@@ -77,9 +76,20 @@ angular.module('rollcall.controllers', [])
       mySplashScreen.className += " hideAnima";
     },2300);
 
+
     setTimeout(function(){
       mySplashScreen.style.display = 'none';
     },2600);
+
+    //change height
+    // console.log("window height: ", $(window).height());
+    // $('.roll_content').height($(window).height());
+    if(ENVIRONMENT == 'prod'){
+      console.log('prod');
+      $('.roll_content').height($(window).height());
+    }else{
+      console.log('test');
+    }
 
     $scope.login = function(){
       $scope.loginErrorMessage = false;
@@ -110,9 +120,7 @@ angular.module('rollcall.controllers', [])
         if(response && response.data && response.data!='0'){
 
 
-        // if(response && response.data){
 
-          // console.log(11);
           $scope.errorMessage = "";
           // $rootScope.classInfos = response.data;
           $rootScope.userName = $scope.user.username;
@@ -133,7 +141,7 @@ angular.module('rollcall.controllers', [])
           $window.sessionStorage.setItem("userName", $scope.user.username);
           $window.sessionStorage.setItem("password", $scope.user.pwd);
 
-          console.log($rootScope.userName,  $rootScope.password);
+          // console.log($rootScope.userName,  $rootScope.password);
           if($rootScope.classCategoryInfos){
 
             $state.go('app.home');
@@ -187,8 +195,8 @@ angular.module('rollcall.controllers', [])
 
     // console.log($window.sessionStorage.getItem($scope.userName + "_classInfos"));
     // $scope.classItems = JSON.parse($window.sessionStorage.getItem($scope.userName + "_classInfos"));
-    console.log('HomeCtrl');
-    console.log($scope.classItems);
+    // console.log('HomeCtrl');
+    // console.log($scope.classItems);
 
 
     // $scope.haveListContent = '1';
@@ -261,13 +269,13 @@ angular.module('rollcall.controllers', [])
     initOtherPart();
     function initOtherPart(){
       var classlst = $window.localStorage.getItem($scope.userName + '_classFinished');
-      console.log('classlst');
-      console.log(classlst);
+      // console.log('classlst');
+      // console.log(classlst);
       if(classlst){
         classlst = JSON.parse(classlst);
         for(var i=0; i<$scope.classItems.length; i++){
           var ckey = $rootScope.getClassKey($scope.classItems[i]['classID']);
-          console.log(ckey);
+          // console.log(ckey);
           if(classlst.indexOf(ckey)!=-1){
             $scope.classItems[i]['exist'] = true;
             $scope.classItems[i]['ckey'] = ckey;
@@ -285,13 +293,13 @@ angular.module('rollcall.controllers', [])
 
       }
 
-      console.log('next scope classsitem');
-      console.log($scope.classItems);
+      // console.log('next scope classsitem');
+      // console.log($scope.classItems);
     }
 
 
     $scope.gotoNextPage = function(item){
-      console.log(item);
+      // console.log(item);
       // return;
 
 
@@ -314,11 +322,14 @@ angular.module('rollcall.controllers', [])
 
 
           var ckey2 = $rootScope.getClassKey($scope.currentActiveItem['classID']);
+          var classStuInfos = {};
           var classStuInfosObj = $window.localStorage.getItem($scope.userName + '_classStuInfos');
 
 
           if(classStuInfosObj){
             classStuInfos = JSON.parse(classStuInfosObj);
+            console.log('classStuInfos');
+            console.log(classStuInfos);
           }
 
           if(classStuInfos.hasOwnProperty(ckey2)){
@@ -329,7 +340,7 @@ angular.module('rollcall.controllers', [])
           }else{
             $scope.currentActiveItem = null;
             $scope.batchSignStudents(item);
-            console.log('777777');
+            // console.log('777777');
           }
 
 
@@ -339,8 +350,8 @@ angular.module('rollcall.controllers', [])
       }
 
     };
-    console.log('console.log($scope.classItems);');
-    console.log($scope.classItems);
+    // console.log('console.log($scope.classItems);');
+    // console.log($scope.classItems);
     var nh = 0;
     $scope.$watch('$viewContentLoaded',function(){
 
@@ -357,7 +368,7 @@ angular.module('rollcall.controllers', [])
 
 
     $scope.showConfirm = function(){
-      console.log('aaa');
+      // console.log('aaa');
       var servicePopup = $ionicPopup.show({
         title: '提示',
         subTitle: '此课程已经进行常规点名，并未完成，确认进行批量点名，并丢弃之前数据么？',
@@ -382,7 +393,7 @@ angular.module('rollcall.controllers', [])
       servicePopup.then(function (res) {
         //console.log(res);
         if (res == 'active') {
-          console.log('active');
+          // console.log('active');
           $scope.batchSignStudents($scope.currentActiveItem);
 
         }
@@ -403,7 +414,7 @@ angular.module('rollcall.controllers', [])
           //for(var i=response.data.length-1; i>2; i--){
           //   response.data.splice(i,1);
           // }
-          console.log(response);
+          // console.log(response);
 
           var qdStus = [],
             xxStus = []; // qdStus 需要签到的学生， xxStus 休学的学生
@@ -428,7 +439,7 @@ angular.module('rollcall.controllers', [])
           });
 
           for(var i=0; i<students.length; i++){
-            students[i]['sign'] = 1;
+            students[i]['sign'] = 0;
           }
 
 
@@ -454,7 +465,7 @@ angular.module('rollcall.controllers', [])
 
           classStuInfos[item.ckey] = obj;
           var jsonStr = JSON.stringify(classStuInfos);
-          console.log(jsonStr);
+          // console.log(jsonStr);
           $window.localStorage.setItem($scope.userName + '_classStuInfos', jsonStr);
 
           var classFinished = [];
@@ -469,7 +480,7 @@ angular.module('rollcall.controllers', [])
 
           $window.localStorage.setItem($scope.userName + '_classFinished', jsonFinishStr);
 
-          console.log(item.ckey);
+          // console.log(item.ckey);
           $state.go('app.result', {id:item.ckey});
 
         }
@@ -623,9 +634,9 @@ angular.module('rollcall.controllers', [])
 
     }
 
-    console.log('$scope.student');
-    console.log($scope.students);
-    console.log();
+    // console.log('$scope.student');
+    // console.log($scope.students);
+    // console.log();
     if($scope.students){
 
       // console.log(111);
@@ -669,10 +680,10 @@ angular.module('rollcall.controllers', [])
               return 1;
             }
           });
-          console.log('$scope.students2');
-          console.log($scope.students);
+          // console.log('$scope.students2');
+          // console.log($scope.students);
           for(var i=0; i<$scope.students.length; i++){
-            $scope.students[i]['sign'] = 0;
+            $scope.students[i]['sign'] = -1;
           }
           $scope.currentIndex = 0;
 
@@ -722,8 +733,8 @@ angular.module('rollcall.controllers', [])
         //console.log("index : ", owl.currentItem);
 
         //console.log('nextStudent', $scope.students[owl.currentItem]);
-        if($scope.students[owl.currentItem]['sign']==0){
-          setItemSign(owl.currentItem, 1);
+        if($scope.students[owl.currentItem]['sign']==-1){
+          setItemSign(owl.currentItem, 0);
         }
 
 
@@ -770,41 +781,53 @@ angular.module('rollcall.controllers', [])
       }
     };
 
+
+    $scope.setSignSwitch = false;
     $scope.setSign = function(val){
-      $scope.currentVal = val;
-      console.log('$scope.currentIndex', $scope.currentIndex);
-      setItemSign($scope.currentIndex, val);
-     if($scope.currentIndex < ($scope.students.length-1)){
-       $timeout(function(){
-         $scope.nextStudent();
-       }, 500);
-     }else{
-       $scope.passSignNum = $scope.students.length;
 
-      //   $window.localStorage.setItem('classStuInfos', jsonStr);
-       var classlst = $window.localStorage.getItem($scope.userName + '_classFinished');
-       if(classlst){
-         classlst = JSON.parse(classlst);
-       }else{
-         classlst = [];
-       }
+      if(!$scope.setSignSwitch){
+        $scope.setSignSwitch = true;
+        $scope.currentVal = val;
+        // console.log('$scope.currentIndex', $scope.currentIndex);
+        setItemSign($scope.currentIndex, val);
+        if($scope.currentIndex < ($scope.students.length-1)){
+          $timeout(function(){
+            $scope.nextStudent();
+          }, 100);
+          $timeout(function(){
+            $scope.setSignSwitch = false;
+          }, 550);
+        }else{
+          $scope.passSignNum = $scope.students.length;
+          $timeout(function(){
+            $scope.setSignSwitch = false;
+          }, 100);
+          //   $window.localStorage.setItem('classStuInfos', jsonStr);
+          var classlst = $window.localStorage.getItem($scope.userName + '_classFinished');
+          if(classlst){
+            classlst = JSON.parse(classlst);
+          }else{
+            classlst = [];
+          }
 
-       var ckey = $rootScope.getClassKey($scope.classID);
-       if(classlst.indexOf(ckey)==-1){
+          var ckey = $rootScope.getClassKey($scope.classID);
+          if(classlst.indexOf(ckey)==-1){
 
-         classlst.push(ckey);
-         $window.localStorage.setItem($scope.userName + '_classFinished', JSON.stringify(classlst));
-       }
-
-
-
-       console.log('finished');
-       $timeout(function(){
-         $state.go('app.signstate', {id:ckey});
-       }, 400);
+            classlst.push(ckey);
+            $window.localStorage.setItem($scope.userName + '_classFinished', JSON.stringify(classlst));
+          }
 
 
-     }
+
+          console.log('finished');
+          $timeout(function(){
+            $state.go('app.signstate', {id:ckey});
+          }, 400);
+
+
+        }
+      }
+
 
 
 
@@ -895,12 +918,11 @@ angular.module('rollcall.controllers', [])
   .controller('DetailCtrl', function($rootScope,$scope) {
     $scope.$watch('$viewContentLoaded',function(){
       // 初始化地图
-      console.log('DetailCtrl');
-      // console.log($('#home_content').height());
-      // console.log($(window).height());
+      // console.log('DetailCtrl');
+
     });
   })
-  .controller('SignStateCtrl', function($scope, $timeout,$state ,$stateParams,$window, $rootScope) {
+  .controller('SignStateCtrl', function($scope, $timeout,$state ,$stateParams,$window, $rootScope, ENVIRONMENT) {
     console.log('SignStateCtrl');
 
 
@@ -915,6 +937,7 @@ angular.module('rollcall.controllers', [])
 
       // $scope.cid = $stateParams.cid;
       // $scope.ctime = $stateParams.ctime;
+
 
 
     $scope.studentsList = [];
@@ -940,9 +963,9 @@ angular.module('rollcall.controllers', [])
 
     console.log($scope.students);
     for(var i=0; i< $scope.students.length; i++){
-      if($scope.students[i]['sign']=='2'){
+      if($scope.students[i]['sign']=='1'){
         $scope.cdList.push($scope.students[i]);
-      }else if($scope.students[i]['sign']=='1'){
+      }else if($scope.students[i]['sign']=='0'){
         $scope.zdList.push($scope.students[i]);
       }else{
         $scope.kkList.push($scope.students[i]);
@@ -1030,6 +1053,12 @@ angular.module('rollcall.controllers', [])
     $scope.$watch('$viewContentLoaded',function(){
       // 初始化地图
       console.log('SignStateCtrl');
+      if(ENVIRONMENT == 'prod'){
+        console.log('prod');
+        $('#roll_content_status').height($(window).height());
+      }else{
+        console.log('test');
+      }
       // console.log($('#home_content').height());
       // console.log($(window).height());
       //resizeListContent();
@@ -1240,7 +1269,7 @@ angular.module('rollcall.controllers', [])
 
               "classID":cId,
               "studentID":sts[j]["studentID"],
-              "sign":(parseInt(sts[j].sign)-1) + '',
+              "sign":sts[j].sign + '',
               "signTime":cdt
             };
             newSts.push(objstu);
@@ -1315,7 +1344,7 @@ angular.module('rollcall.controllers', [])
 
   })
 
-  .controller('ChangePwdCtrl', function($rootScope, $scope,$state, $timeout, Login) {
+  .controller('ChangePwdCtrl', function($rootScope, $scope,$state, $timeout, Login, ENVIRONMENT) {
 
     $rootScope.currentTitle = '修改密码';
     $rootScope.showTitle = true;
@@ -1328,6 +1357,16 @@ angular.module('rollcall.controllers', [])
       "newPwd2": ''
     };
 
+
+    //change height
+    // console.log("window height: ", $(window).height());
+    if(ENVIRONMENT == 'prod'){
+      console.log('prod');
+      $('.roll_content').height($(window).height());
+    }else{
+      console.log('test');
+    }
+    // $('.roll_content').height($(window).height());
 
     $scope.$watch('user',function(newValue,oldValue, scope){
       $scope.errorMessage = "";
