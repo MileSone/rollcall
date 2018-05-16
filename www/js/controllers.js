@@ -15,6 +15,7 @@ angular.module('rollcall.controllers', [])
       }
       return num;
     }
+
     $rootScope.getCurrentDateStr = function(){
       var _date = new Date();
       var _y = _date.getFullYear();
