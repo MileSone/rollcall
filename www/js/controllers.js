@@ -56,8 +56,6 @@ angular.module('rollcall.controllers', [])
     // $timeout(function(){
     //   $state.go('app.home');
     // }, 3000);
-
-    $rootScope.dataFrom = 'login';
     $rootScope.classCategoryInfos = null;
     $rootScope.currentClassCategoryInfos = [];
     $rootScope.currentTitle = '';
@@ -69,12 +67,22 @@ angular.module('rollcall.controllers', [])
     $scope.errorMessage = "";
     $rootScope.classItems = null;
     $rootScope.userName = "";
+    $scope.splash = true;
 
     $scope.user = {
       "username":"王卓",
       "pwd":"1234"
     };
 
+    var mySplashScreen = document.getElementById('custom-overlay');
+    setTimeout(function(){
+      mySplashScreen.className += " hideAnima";
+    },2300);
+
+
+    setTimeout(function(){
+      mySplashScreen.style.display = 'none';
+    },2600);
 
 
     if(ENVIRONMENT == 'prod'){
