@@ -65,11 +65,17 @@
 
             <div class="sign_bottom_wrap_inner">
 
-              <div class="sign_btn sign_btn_a" ng-click="setSign(0);">
+              <div ng-if="currentVal!=0" class="sign_btn sign_btn_a" ng-click="setSign(0);">
                 <img src="img/timeattendanceapp37.png" alt="" />
               </div>
-              <div class="sign_btn sign_btn_b" ng-click="setSign(2);">
+              <div ng-if="currentVal==0" class="sign_btn sign_btn_a">
+                <img src="img/timeattendanceapp37_selected.png" alt="" />
+              </div>
+              <div ng-if="currentVal!=2" class="sign_btn sign_btn_b" ng-click="setSign(2);">
                 <img src="img/timeattendanceapp38.png" alt="" />
+              </div>
+              <div ng-if="currentVal==2" class="sign_btn sign_btn_b">
+                <img src="img/timeattendanceapp38_selected.png" alt="" />
               </div>
 
             </div>
