@@ -34,6 +34,11 @@ angular.module('rollcall.controllers', [])
       $state.go('login');
     };
 
+    $rootScope.goHome = function(){
+      // console.log('logout');
+      $state.go('app.home');
+    };
+
     $rootScope.showLoadingToast = function () {
       // Setup the loader
       $ionicLoading.show({

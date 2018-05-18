@@ -42,19 +42,30 @@
 
 
           <div class="sign_bottom_wrap">
-            <!--<div class="user_sign_status"ng-class="{cd_status: currentVal == 2, zd_status: currentVal == 1,kk_status: currentVal == 3}"></div>-->
+            <!--<div class="user_sign_status" ng-class="{cd_status: currentVal == 2, zd_status: currentVal == 1,kk_status: currentVal == 3}"></div>-->
             <div class="sign_bottom_wrap_inner singe_bottom">
 
 
-              <div class="sign_btn sign_btn_a" ng-click="setSign(0);">
+              <div  ng-if="currentVal!=0" class="sign_btn sign_btn_a" ng-click="setSign(0);">
                 <img src="img/timeattendanceapp37.png" alt="" />
               </div>
-              <div class="sign_btn sign_btn_b" ng-click="setSign(2);">
+              <div ng-if="currentVal!=2" class="sign_btn sign_btn_b" ng-click="setSign(2);">
                 <img src="img/timeattendanceapp38.png" alt="" />
               </div>
 
-              <div class="sign_btn sign_btn_c" ng-click="setSign(1);">
+              <div ng-if="currentVal!=1" class="sign_btn sign_btn_c" ng-click="setSign(1);">
                 <img src="img/timeattendanceapp39.png" alt="" />
+              </div>
+
+              <div ng-if="currentVal==0" class="sign_btn sign_btn_a">
+                <img src="img/timeattendanceapp37_selected.png" alt="" />
+              </div>
+              <div ng-if="currentVal==2" class="sign_btn sign_btn_b">
+                <img src="img/timeattendanceapp38_selected.png" alt="" />
+              </div>
+
+              <div ng-if="currentVal==1" class="sign_btn sign_btn_c">
+                <img src="img/timeattendanceapp39_selected.png" alt="" />
               </div>
 
             </div>
