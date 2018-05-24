@@ -34,7 +34,7 @@
           <div  ng-nicescroll nice-option="{cursorcolor:'#d5d5d5',cursorborder:'1px solid transparent', cursorwidth:'9px', autohidemode:false}" class="category_list">
 
             <div ng-if="currentTabType=='迟到'">
-              <!--<div class="no_data no_cd_data" ng-if="cdList.length==0;"><div class="no_data_inner">没有数据</div></div>-->
+              <div class="no_data no_cd_data" ng-if="cdList.length==0;"><div class="no_data_inner">没有数据</div></div>
               <ul class="detail_l_c cd_items clearfix">
                 <li class="detail_l_li" ng-repeat="stu in cdList"  on-finish-render-filters>
                   <div class="detail_card">
@@ -48,7 +48,7 @@
             </div>
 
             <div ng-if="currentTabType=='准到'">
-              <!--<div class="no_data no_zd_data" ng-if="zdList.length==0;"><div class="no_data_inner">没有数据</div></div>-->
+              <div class="no_data no_zd_data" ng-if="zdList.length==0;"><div class="no_data_inner">没有数据</div></div>
               <ul class="detail_l_c zd_items clearfix">
                 <li class="detail_l_li" ng-repeat="stu in zdList"  on-finish-render-filters>
                   <div class="detail_card">
@@ -62,7 +62,7 @@
             </div>
 
             <div ng-if="currentTabType=='旷课'">
-              <!--<div class="no_data no_kk_data" ng-if="kkList.length==0;"><div class="no_data_inner">没有数据</div></div>-->
+              <div class="no_data no_kk_data" ng-if="kkList.length==0;"><div class="no_data_inner">没有数据</div></div>
               <ul class="detail_l_c kk_items clearfix">
                 <li class="detail_l_li" ng-repeat="stu in kkList"  on-finish-render-filters>
                   <div class="detail_card">
