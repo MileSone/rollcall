@@ -85,8 +85,8 @@ angular.module('rollcall.controllers', [])
     $scope.splash = true;
 
     $scope.user = {
-      "username":"王卓",
-      "pwd":"1234"
+      "username":"",
+      "pwd":""
     };
 
     var mySplashScreen = document.getElementById('custom-overlay');
