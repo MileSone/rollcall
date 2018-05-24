@@ -224,7 +224,7 @@
 
 
 .login_bottom2 {
-  padding: 25px 0;
+  padding: 0px 0px 25px;
   text-align: center;
   position: fixed;
   bottom: 0px;
@@ -1367,7 +1367,7 @@ ul.state_list_ul {
 
 .roll_bottom_wrap_inner .login_bottom {
   position: absolute;
-  padding: 30px 0;
+  padding: 0px 0px 30px;
   width:100%;
   text-align: center;
   bottom: 0px;
@@ -1957,7 +1957,7 @@ input.search_name_input{
   }
 
   .roll_bottom_wrap_inner .login_bottom{
-    padding: 15px 0;
+    padding: 0px 0px 15px 0px;
   }
 
   .change_pwd .login_c_wrap {
@@ -1970,7 +1970,7 @@ input.search_name_input{
     margin-top:10px;
   }
   .change_pwd .roll_bottom_wrap_inner .login_bottom{
-    padding: 10px 0;
+    padding: 0px 0px 10px;
   }
   .category_list {
     padding: 0px 30px;
@@ -2146,7 +2146,7 @@ input.search_name_input{
 
   .roll_bottom_wrap_inner .login_bottom {
 
-    padding: 15px 0;
+    padding: 0px 0px 15px;
   }
 
   .login_btn_s{
