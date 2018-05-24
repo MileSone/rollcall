@@ -44,6 +44,13 @@
     <script src="js/services.js"></script>
   </head>
   <body ng-app="rollcall" class="rc_bg" ng-controller="MainCtrl">
+  <div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
+    <div class="flb">
+      <div class="Aligner-item Aligner-item--top"></div>
+      <img src="img/timeattendanceapp03.png">
+      <div class="Aligner-item Aligner-item--bottom"></div>
+    </div>
+  </div>
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
