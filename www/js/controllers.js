@@ -16,6 +16,16 @@ angular.module('rollcall.controllers', [])
       return num;
     }
 
+    var mySplashScreen = document.getElementById('custom-overlay');
+    setTimeout(function(){
+      mySplashScreen.className += " hideAnima";
+    },2300);
+
+    setTimeout(function(){
+      mySplashScreen.style.display = 'none';
+    },2600);
+
+
     $rootScope.getCurrentDateStr = function(){
       var _date = new Date();
       var _y = _date.getFullYear();
@@ -86,15 +96,6 @@ angular.module('rollcall.controllers', [])
       "pwd":""
     };
 
-    var mySplashScreen = document.getElementById('custom-overlay');
-    setTimeout(function(){
-      mySplashScreen.className += " hideAnima";
-    },2300);
-
-
-    setTimeout(function(){
-      mySplashScreen.style.display = 'none';
-    },2600);
 
 
     if(ENVIRONMENT == 'prod'){
