@@ -24,6 +24,7 @@ angular.module('rollcall.controllers', [])
       return _y + "/" + _m + "/" +_d;
     };
 
+
     $rootScope.getClassKey = function(cid){
       return 'class_' + cid + '_' + $rootScope.getCurrentDateStr();
 
@@ -35,8 +36,16 @@ angular.module('rollcall.controllers', [])
     };
 
     $rootScope.goHome = function(){
+      // console.log($state);
+      if($state.current.name=='app.changepwd'){
+        return false;
+      }else{
+        $state.go('app.home');
+      }
+      // console.log($state);
+
       // console.log('logout');
-      $state.go('app.home');
+      // $state.go('app.home');
     };
 
     $rootScope.showLoadingToast = function () {
@@ -173,6 +182,10 @@ angular.module('rollcall.controllers', [])
 
 
 
+    };
+
+    $scope.setErrorMessageEmpty = function(){
+      $scope.errorMessage = '';
     };
     $scope.goChangePwd = function(){
 
@@ -1164,7 +1177,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('ResultCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
     $scope.csInfos = [];
-    $rootScope.currentTitle = '结果一览';
+    $rootScope.currentTitle = '结果预览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
     $rootScope.dataFrom = '';
@@ -1481,7 +1494,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('HistoryCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
 
-    $rootScope.currentTitle = '结果一览';
+    $rootScope.currentTitle = '结果预览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
 

@@ -2128,3 +2128,42 @@ input.search_name_input{
   }
 }
 
+
+@media screen and (max-width: 640px) {
+  .login_c_wrap{
+    padding: 25px 50px 20px 40px;
+  }
+  .login_c_wrap.change_password {
+    padding: 15px 50px 20px 50px;
+  }
+
+  .roll_bottom_wrap_inner .login_bottom {
+
+    padding: 15px 0;
+  }
+
+  .login_btn_s{
+    margin-top:25px;
+  }
+
+  .save_pwd {
+    margin-top: 15px;
+  }
+  .login_content{
+  margin-top:2%;
+  }
+
+  .person_item{
+    /*max-width: 280px;*/
+    max-width: 71%;
+  }
+
+  .roll_top_c_w .right_image{
+  position: absolute;
+  width: 60%;
+  /* height: 100%; */
+  right: 6%;
+  top: 24%;
+  z-index: 10;
+}
+}
