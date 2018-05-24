@@ -33,6 +33,9 @@
   background-color: transparent;
 }
 
+.fontWD{
+  font-weight: bolder;
+}
 .login{
   /*background-image: url("../img/timeattendanceapp-01.png");*/
   /*background-size:cover;*/
@@ -86,6 +89,10 @@
   height:50px;
   overflow: hidden;
   border-radius: 5px;
+}
+
+.login_item .other_login_item{
+  margin-top:10px;
 }
 
 .login_item .login_item_left{
@@ -217,7 +224,7 @@
 
 
 .login_bottom2 {
-  padding: 25px 0;
+  padding: 0px 0px 25px;
   text-align: center;
   position: fixed;
   bottom: 0px;
@@ -1360,7 +1367,7 @@ ul.state_list_ul {
 
 .roll_bottom_wrap_inner .login_bottom {
   position: absolute;
-  padding: 30px 0;
+  padding: 0px 0px 30px;
   width:100%;
   text-align: center;
   bottom: 0px;
@@ -1419,7 +1426,7 @@ ul.state_list_ul {
   width:100%;
 }
 
-.login_c_wrap{
+{
   padding: 40px 50px 20px 50px;
 }
 .login_btn_wrap{
@@ -1950,7 +1957,7 @@ input.search_name_input{
   }
 
   .roll_bottom_wrap_inner .login_bottom{
-    padding: 15px 0;
+    padding: 0px 0px 15px 0px;
   }
 
   .change_pwd .login_c_wrap {
@@ -1963,7 +1970,7 @@ input.search_name_input{
     margin-top:10px;
   }
   .change_pwd .roll_bottom_wrap_inner .login_bottom{
-    padding: 10px 0;
+    padding: 0px 0px 10px;
   }
   .category_list {
     padding: 0px 30px;
@@ -2126,5 +2133,63 @@ input.search_name_input{
   .roll_bottom_wrap_inner.roll_page_sign_state{
     padding-top:200px;
   }
+}
+
+
+@media screen and (max-width: 640px) {
+  .login_c_wrap{
+    padding: 25px 40px 20px 40px;
+  }
+  .login_c_wrap.change_password {
+    padding: 15px 40px 20px 40px;
+  }
+
+  .roll_bottom_wrap_inner .login_bottom {
+
+    padding: 0px 0px 15px;
+  }
+
+  .login_btn_s{
+    margin-top:25px;
+  }
+
+  .save_pwd {
+    margin-top: 15px;
+  }
+  .login_content{
+  margin-top:2%;
+  }
+
+  .person_item{
+    /*max-width: 280px;*/
+    max-width: 71%;
+  }
+
+  .roll_top_c_w .right_image{
+  position: absolute;
+  width: 60%;
+  /* height: 100%; */
+  right: 6%;
+  top: 24%;
+  z-index: 10;
+}
+}
+
+
+@media screen and (max-width: 320px){
+  .login_c_wrap{
+    padding: 15px 30px 20px 30px;
+  }
+  .login_btn_s {
+    margin-top: 15px;
+  }
+  .login_item .other_login_item{
+    margin-top:5px;
+  }
+  .login_c_wrap.change_password{
+    padding: 15px 30px 20px 30px;
+  }
+
+
 }
 

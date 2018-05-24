@@ -8,7 +8,7 @@ angular.module('rollcall.services', [])
   service.login = function (username , password) {
     var apiURL = SERVER_URL.path + REST_SERVICES.login;
 
-    console.log('apiURL : ', apiURL);
+    // console.log('apiURL : ', apiURL);
 
     var data  = {
       'uName' : username,
@@ -26,8 +26,8 @@ angular.module('rollcall.services', [])
       },
       data: data
     }).then(function (response) {
-      console.log('response');
-      console.log(response);
+      // console.log('response');
+      // console.log(response);
       return response;
     }, function (error) {
       console.log('login data error');
@@ -48,7 +48,7 @@ angular.module('rollcall.services', [])
   service.changePwd = function (username , oldpwd,  password) {
     var apiURL = SERVER_URL.path + REST_SERVICES.changePwd;
 
-    console.log('apiURL : ', apiURL);
+    // console.log('apiURL : ', apiURL);
 
     var data  = {
       'uName' : username,
@@ -88,7 +88,7 @@ angular.module('rollcall.services', [])
     service.getStudentsList = function (classid) {
       var apiURL = SERVER_URL.path + REST_SERVICES.getStudentsList;
 
-      console.log('apiURL : ', apiURL);
+      // console.log('apiURL : ', apiURL);
 
       var data  = {
         'classID' : classid
@@ -120,7 +120,7 @@ angular.module('rollcall.services', [])
     service.getStatusByClassID = function (classid, callTime) {
       var apiURL = SERVER_URL.path + REST_SERVICES.getStatusByClassID;
 
-      console.log('apiURL : ', apiURL);
+      // console.log('apiURL : ', apiURL);
 
       var data  = {
         'classID' : classid,
@@ -152,7 +152,7 @@ angular.module('rollcall.services', [])
     service.setStudentsCallList = function (list) {
       var apiURL = SERVER_URL.path + REST_SERVICES.setStudentsCallList;
 
-      console.log('apiURL : ', apiURL);
+      // console.log('apiURL : ', apiURL);
 //edit by wangyan 20170407
       return $http({
         url: apiURL,

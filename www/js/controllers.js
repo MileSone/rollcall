@@ -34,19 +34,25 @@ angular.module('rollcall.controllers', [])
       return _y + "/" + _m + "/" +_d;
     };
 
+
     $rootScope.getClassKey = function(cid){
       return 'class_' + cid + '_' + $rootScope.getCurrentDateStr();
 
     };
 
     $rootScope.logout = function(){
-      // console.log('logout');
+
       $state.go('login');
     };
 
     $rootScope.goHome = function(){
-      // console.log('logout');
-      $state.go('app.home');
+
+      if($state.current.name=='app.changepwd'){
+        return false;
+      }else{
+        $state.go('app.home');
+      }
+
     };
 
     $rootScope.showLoadingToast = function () {
@@ -93,11 +99,36 @@ angular.module('rollcall.controllers', [])
 
 
     if(ENVIRONMENT == 'prod'){
-      // console.log('prod');
+
       $('.roll_content').height($(window).height());
     }else{
-      // console.log('test');
+
     }
+
+    $scope.doLoginName = function(event){
+      console.log(event);
+      // event.stopPropagation();
+      if(event.which === 13){
+        if($scope.user.username!="" && $scope.user.pwd!=""){
+          $scope.login();
+        }
+
+
+      }
+
+    };
+
+    $scope.doLogin = function(event){
+      // console.log(event);
+      event.stopPropagation();
+      if(event.which === 13){
+        if($scope.user.username!="" && $scope.user.pwd!=""){
+          $scope.login();
+        }
+
+      }
+
+    };
 
     $scope.login = function(){
 
@@ -106,7 +137,7 @@ angular.module('rollcall.controllers', [])
       $scope.loginErrorMessage = false;
       $scope.errorMessage = '';
       if($scope.user.username==""){
-        $scope.errorMessage = "请输入用户名!";
+        $scope.errorMessage = "请输入姓名!";
         return false;
       }
 
@@ -124,8 +155,7 @@ angular.module('rollcall.controllers', [])
       $rootScope.showLoadingToast();
 
       Login.login($scope.user.username, $scope.user.pwd).then(function(response){
-        // console.log('success');
-        // console.log(response);
+
 
         //will change
         if(response && response.data && response.data!='0'){
@@ -175,6 +205,10 @@ angular.module('rollcall.controllers', [])
 
 
     };
+
+    $scope.setErrorMessageEmpty = function(){
+      $scope.errorMessage = '';
+    };
     $scope.goChangePwd = function(){
 
       $state.go('app.changepwd');
@@ -222,7 +256,7 @@ angular.module('rollcall.controllers', [])
 
           $rootScope.classCategoryInfos = classData;
 
-// console.log();
+
           $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
           if($scope.classItems && $scope.classItems.length>0){
             $scope.haveListContent = '1';
@@ -386,25 +420,24 @@ angular.module('rollcall.controllers', [])
           }else{
             $scope.currentActiveItem = null;
             $scope.batchSignStudents(item);
-            // console.log('777777');
+
           }
 
 
-          // $scope.batchSignStudents(item);
+
 
         }
       }
 
     };
-    // console.log('console.log($scope.classItems);');
-    // console.log($scope.classItems);
+
     var nh = 0;
     $scope.$watch('$viewContentLoaded',function(){
 
       //  var oh = $('#main-view').height();
       //  var sht = $('#home_top').height();
       // nh = oh - sht-30;
-      // console.log(oh, sht);
+
 
 
 
@@ -456,11 +489,7 @@ angular.module('rollcall.controllers', [])
 
         $rootScope.hideLoadingToast();
         if(response && response.data &&  response.data!="false"){
-          //testdata
-          //for(var i=response.data.length-1; i>2; i--){
-          //   response.data.splice(i,1);
-          // }
-          // console.log(response);
+
 
           var qdStus = [],
             xxStus = []; // qdStus 需要签到的学生， xxStus 休学的学生
@@ -985,7 +1014,7 @@ angular.module('rollcall.controllers', [])
    // var key = $rootScope.getClassKey($scope.classID);
     $scope.students = csi[$scope.ckey]['students'];
 
-    // console.log($scope.students);
+
     for(var i=0; i< $scope.students.length; i++){
       if($scope.students[i]['sign']=='1'){
         $scope.cdList.push($scope.students[i]);
@@ -996,8 +1025,7 @@ angular.module('rollcall.controllers', [])
       }
     }
     $scope.dataLoaded = true;
-    // console.log($scope.cdList);
-    // console.log($scope.zdList);
+
     $scope.className = csi[$scope.ckey]['className'];
 
     // console.log($scope.students);
@@ -1165,7 +1193,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('ResultCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
     $scope.csInfos = [];
-    $rootScope.currentTitle = '结果一览';
+    $rootScope.currentTitle = '结果预览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
     $rootScope.dataFrom = '';
@@ -1482,7 +1510,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('HistoryCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
 
-    $rootScope.currentTitle = '结果一览';
+    $rootScope.currentTitle = '结果预览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
 
