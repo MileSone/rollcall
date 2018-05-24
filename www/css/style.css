@@ -2190,6 +2190,13 @@ input.search_name_input{
     padding: 15px 30px 20px 30px;
   }
 
+  .edit_pwd_btn{
+    margin-top:20px;
+
+  }
+  .login_btn_s{
+    margin-top:20px;
+  }
 
 }
 

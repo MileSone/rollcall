@@ -1002,11 +1002,61 @@ angular.module('rollcall.controllers', [])
     // console.log($scope.classID);
     $scope.className = '';
     $scope.students = null;
-    $scope.search = '';
+    $scope.searchTxt = '';
     $scope.dataLoaded = false;
     // $scope.signYesActive = false;
     // $scope.signNoActive = true;
     // $scope.signtype = 2;
+
+    $scope.searchResult = {
+      cdListHasResult:-1,
+      zdListHasResult:-1,
+      kkListHasResult:-1
+    };
+    $scope.searchObj = {
+      searchTxt:''
+    }
+
+    // $scope.getSearchText = function(){
+    //   return $scope.searchTxt
+    // };
+
+    // $scope.$watch(function($scope) { return $scope.searchTxt; },
+    //   function(newValue, oldValue, scope) {
+    //     console.log(newValue, oldValue);
+    //   });
+
+    function filterListResult(list, text){
+      if(!text || text==''){
+        return -1;
+      }
+      if(!list || list=='' || list.length==0){
+        return 0;
+      }
+
+      var result = 0;
+      for(var i=0; i<list.length; i++){
+        if(list[i]['stuName'].toLowerCase().indexOf(text.toLowerCase())!=-1){
+          result = 1;
+          break;
+        }
+      }
+      return result;
+    }
+
+    $scope.$watch('searchObj',function(newValue,oldValue){
+      if(!newValue || newValue==''){
+        $scope.searchResult.cdListHasResult = -1;
+        $scope.searchResult.zdListHasResult = -1;
+        $scope.searchResult.kkListHasResult = -1;
+      }else{
+        $scope.searchResult.cdListHasResult = filterListResult($scope.cdList, newValue.searchTxt);
+        $scope.searchResult.zdListHasResult = filterListResult($scope.zdList, newValue.searchTxt);
+        $scope.searchResult.kkListHasResult = filterListResult($scope.kkList, newValue.searchTxt);
+      }
+      // console.log($scope.searchResult);
+
+    }, true);
 
     $scope.userName =  $window.sessionStorage.getItem("userName");
     var csi = JSON.parse($window.localStorage.getItem($scope.userName + '_classStuInfos'));
@@ -1333,7 +1383,7 @@ angular.module('rollcall.controllers', [])
             var objstu= {
 
               "classID":cId,
-              "studentID":xxsts[j]["studentID"],
+              "studentID":xxsts[k]["studentID"],
               "sign":3,
               "signTime":cdt
             };

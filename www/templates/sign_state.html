@@ -19,7 +19,7 @@
                   <div class="search_name_btn">
                     <img src="img/timeattendanceapp33.png" alt="" />
                   </div>
-                  <input type="text" class="search_name_input" ng-model="search" placeholder="按姓名检索">
+                  <input type="text" class="search_name_input" ng-model="searchObj.searchTxt" placeholder="按姓名检索">
                 </div>
               </div>
               <div class="status_items_wrap">
@@ -55,9 +55,10 @@
           <div  ng-nicescroll nice-option="{cursorcolor:'#d5d5d5',cursorborder:'1px solid transparent', cursorwidth:'9px', autohidemode:false}" class="sign_state_list">
 
             <div ng-if="currentTabType=='2'">
-              <div class="no_data no_cd_data" ng-if="dataLoaded && cdList.length==0;"><div class="no_data_inner">没有数据</div></div>
+
+              <div class="no_data no_cd_data" ng-if="dataLoaded &&(cdList.length==0|| searchResult.cdListHasResult===0)"><div class="no_data_inner">没有数据</div></div>
               <ul class="detail_l_c cd_items clearfix">
-                <li class="detail_l_li" ng-repeat="stu in cdList | filter: { stuName: search}"  on-finish-render-filters>
+                <li class="detail_l_li" ng-repeat="stu in cdList | studentListFilter: searchObj.searchTxt"  on-finish-render-filters>
                   <div class="detail_card" ng-click="goDetailPage(ckey, stu.studentID);">
                     <div class="detail_card_inner"><div class="detail_card_cell">{{stu.stuName}}</div></div>
 
@@ -69,9 +70,9 @@
             </div>
 
             <div ng-if="currentTabType=='1'">
-              <div class="no_data no_zd_data" ng-if="dataLoaded && zdList.length==0;"><div class="no_data_inner">没有数据</div></div>
+              <div class="no_data no_zd_data" ng-if="dataLoaded && (zdList.length==0||searchResult.zdListHasResult===0)"><div class="no_data_inner">没有数据</div></div>
               <ul class="detail_l_c zd_items clearfix">
-                <li class="detail_l_li" ng-repeat="stu in zdList | filter: { stuName: search}"  on-finish-render-filters>
+                <li class="detail_l_li" ng-repeat="stu in zdList | studentListFilter: searchObj.searchTxt"  on-finish-render-filters>
                   <div class="detail_card" ng-click="goDetailPage(ckey, stu.studentID);">
                     <div class="detail_card_inner"><div class="detail_card_cell">{{stu.stuName}}</div></div>
 
@@ -83,9 +84,9 @@
             </div>
 
             <div ng-if="currentTabType=='3'">
-              <div class="no_data no_kk_data"  ng-if="dataLoaded && kkList.length==0;"><div class="no_data_inner">没有数据</div></div>
+              <div class="no_data no_kk_data"  ng-if="dataLoaded && (kkList.length==0||searchResult.kkListHasResult===0)"><div class="no_data_inner">没有数据</div></div>
               <ul class="detail_l_c kk_items clearfix">
-                <li class="detail_l_li" ng-repeat="stu in kkList | filter: { stuName: search}"  on-finish-render-filters>
+                <li class="detail_l_li" ng-repeat="stu in kkList | filter: studentListFilter: searchObj.searchTxt"  on-finish-render-filters>
                   <div class="detail_card" ng-click="goDetailPage(ckey, stu.studentID);">
                     <div class="detail_card_inner"><div class="detail_card_cell">{{stu.stuName}}</div></div>
 

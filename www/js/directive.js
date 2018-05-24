@@ -44,6 +44,25 @@ app
         }
       }
     }
+  })
+  .filter('studentListFilter', function () {
+    return function (collection, searchname) {
+      // console.info(collection);
+      // console.info(searchname);
+      if(!searchname || searchname==''){
+
+        return collection;
+      }
+      var output = [];
+      if(collection && collection.length>0){
+        for(var i=0; i<collection.length; i++){
+          if(collection[i]['stuName'].toLowerCase().indexOf(searchname.toLowerCase())!=-1){
+            output.push(collection[i]);
+          }
+        }
+      }
+      return output;
+    }
   });
 
 
