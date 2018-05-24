@@ -104,6 +104,31 @@ angular.module('rollcall.controllers', [])
 
     }
 
+    $scope.doLoginName = function(event){
+      console.log(event);
+      // event.stopPropagation();
+      if(event.which === 13){
+        if($scope.user.username!="" && $scope.user.pwd!=""){
+          $scope.login();
+        }
+
+
+      }
+
+    };
+
+    $scope.doLogin = function(event){
+      // console.log(event);
+      event.stopPropagation();
+      if(event.which === 13){
+        if($scope.user.username!="" && $scope.user.pwd!=""){
+          $scope.login();
+        }
+
+      }
+
+    };
+
     $scope.login = function(){
 
 
@@ -111,7 +136,7 @@ angular.module('rollcall.controllers', [])
       $scope.loginErrorMessage = false;
       $scope.errorMessage = '';
       if($scope.user.username==""){
-        $scope.errorMessage = "请输入用户名!";
+        $scope.errorMessage = "请输入姓名!";
         return false;
       }
 
