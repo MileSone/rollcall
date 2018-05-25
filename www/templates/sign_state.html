@@ -86,7 +86,7 @@
             <div ng-if="currentTabType=='3'">
               <div class="no_data no_kk_data"  ng-if="dataLoaded && (kkList.length==0||searchResult.kkListHasResult===0)"><div class="no_data_inner">没有数据</div></div>
               <ul class="detail_l_c kk_items clearfix">
-                <li class="detail_l_li" ng-repeat="stu in kkList | filter: studentListFilter: searchObj.searchTxt"  on-finish-render-filters>
+                <li class="detail_l_li" ng-repeat="stu in kkList | studentListFilter: searchObj.searchTxt"  on-finish-render-filters>
                   <div class="detail_card" ng-click="goDetailPage(ckey, stu.studentID);">
                     <div class="detail_card_inner"><div class="detail_card_cell">{{stu.stuName}}</div></div>
 
