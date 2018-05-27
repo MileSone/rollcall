@@ -78,11 +78,17 @@ angular.module('rollcall.controllers', [])
     // $timeout(function(){
     //   $state.go('app.home');
     // }, 3000);
+
+
     $rootScope.classCategoryInfos = null;
     $rootScope.currentClassCategoryInfos = [];
     $rootScope.currentTitle = '';
     $rootScope.teacherName = '';
     $rootScope.showTitle = false;
+    $rootScope.currentTitle = '';
+    $rootScope.showTitle = false;
+
+    $rootScope.smallTitle = 0;
 
     $rootScope.classInfos = null;
     $scope.loginErrorMessage = false;
@@ -1087,6 +1093,8 @@ angular.module('rollcall.controllers', [])
 
     $scope.changeCurrentStatus = function(status){
       $scope.currentTabType = status;
+
+
     }
     // $scope.filterSignYes = function(){
     //   $scope.search = '';

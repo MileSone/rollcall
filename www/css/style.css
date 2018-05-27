@@ -91,7 +91,7 @@
   border-radius: 5px;
 }
 
-.login_item .other_login_item{
+.login_item.other_login_item{
   margin-top:10px;
 }
 
@@ -2177,14 +2177,27 @@ input.search_name_input{
 
 
 @media screen and (max-width: 320px){
+
+  .top_b_header_title{
+    font-size: 20px;
+  }
   .login_c_wrap{
     padding: 15px 30px 20px 30px;
   }
   .login_btn_s {
     margin-top: 15px;
   }
-  .login_item .other_login_item{
-    margin-top:5px;
+  .login_item.other_login_item{
+    margin-top:1px;
+  }
+
+  .login_item .login_item_right input{
+    font-size: 18px;
+  }
+  .login_btn{
+    height: 48px;
+    line-height: 48px;
+    font-size: 1.3em;
   }
   .login_c_wrap.change_password{
     padding: 15px 30px 20px 30px;
@@ -2198,5 +2211,8 @@ input.search_name_input{
     margin-top:20px;
   }
 
+  .roll_c_title{
+    font-size: 20px;
+  }
 }
 
