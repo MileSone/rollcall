@@ -112,7 +112,7 @@ angular.module('rollcall.controllers', [])
     }
 
     $scope.doLoginName = function(event){
-      console.log(event);
+      // console.log(event);
       // event.stopPropagation();
       if(event.which === 13){
         if($scope.user.username!="" && $scope.user.pwd!=""){
@@ -262,8 +262,15 @@ angular.module('rollcall.controllers', [])
 
           $rootScope.classCategoryInfos = classData;
 
+          var currentclassItems = $rootScope.classCategoryInfos['thiSemester'];
 
-          $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
+
+          $scope.classItems =  [];
+          for(var i=0; i<currentclassItems.length; i++){
+            if(currentclassItems[i]['delFlg']=='0'){
+              $scope.classItems.push(currentclassItems[i]);
+            }
+          }
           if($scope.classItems && $scope.classItems.length>0){
             $scope.haveListContent = '1';
           }else{
@@ -273,10 +280,10 @@ angular.module('rollcall.controllers', [])
           $window.sessionStorage.setItem($scope.userName + "_classInfos", JSON.stringify(classData['thiSemester']));
           //$window.sessionStorage.setItem("classInfos", response.data);
 
-          $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
-          if( $scope.classItems.length>0){
-            $scope.haveListContent = true;
-          }
+          // $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
+          // if( $scope.classItems.length>0){
+          //   $scope.haveListContent = true;
+          // }
 
           initOtherPart();
           //console.log($rootScope.userName,  $rootScope.password);
@@ -297,23 +304,34 @@ angular.module('rollcall.controllers', [])
       });
 
     }else{
+      var currentclassItems  =  [];
       if($rootScope.classCategoryInfos && $rootScope.classCategoryInfos.hasOwnProperty('thiSemester')){
-        $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
-      }
+        var currentclassItems = $rootScope.classCategoryInfos['thiSemester'];
 
 
-      $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
-      if($scope.classItems && $scope.classItems.length>0){
-        $scope.haveListContent = '1';
-      }else{
-        $scope.haveListContent = '2';
+
+        for(var i=0; i<currentclassItems.length; i++){
+          if(currentclassItems[i]['delFlg']=='0'){
+            $scope.classItems.push(currentclassItems[i]);
+          }
+        }
       }
+
+      console.log('$scope.classItems');
+      console.log($scope.classItems);
+
       // $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
       if($scope.classItems && $scope.classItems.length>0){
         $scope.haveListContent = '1';
       }else{
         $scope.haveListContent = '2';
       }
+      // // $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
+      // if($scope.classItems && $scope.classItems.length>0){
+      //   $scope.haveListContent = '1';
+      // }else{
+      //   $scope.haveListContent = '2';
+      // }
       initOtherPart();
     }
 
@@ -605,7 +623,7 @@ angular.module('rollcall.controllers', [])
     $scope.isFirstItem = true;
     $scope.isLastItem = false;
     $scope.passSignNum = 0;
-    $scope.currentVal = 0;
+    $scope.currentVal = -1;
     $scope.className = '';
     $scope.userName =  $window.sessionStorage.getItem("userName");
     $scope.classItems = JSON.parse($window.sessionStorage.getItem($scope.userName + "_classInfos"));
@@ -1547,7 +1565,7 @@ angular.module('rollcall.controllers', [])
 
 
         }else{
-          $scope.errorMessage = "服务器忙,请稍后再试!";
+          $scope.errorMessage = " 用户名或者原登录密码不匹配!";
         }
 
       }, function(error){
@@ -1689,7 +1707,7 @@ angular.module('rollcall.controllers', [])
           $scope.cdList.push($scope.studentsList[i]);
         }else if($scope.studentsList[i]['callStatus']=='准到'){
           $scope.zdList.push($scope.studentsList[i]);
-        }else if($scope.studentsList[i]['callStatus']=='旷课'){
+        }else{
           $scope.kkList.push($scope.studentsList[i]);
         }
       }
