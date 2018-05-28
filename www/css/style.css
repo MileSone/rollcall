@@ -168,7 +168,7 @@
   /* max-width: 200px; */
   padding: 0px 30px;
   text-align: center;
-
+  z-index: 9999;
   color: #fff;
   font-size: 1.5rem;
   height: 60px;
@@ -1147,7 +1147,7 @@ ul.state_list_ul {
   width: 34%;
   /* height: 100%; */
   left: 0px;
-  top: 15%;
+  top: 22%;
   z-index: 10;
 }
 
