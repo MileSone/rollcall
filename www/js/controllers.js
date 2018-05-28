@@ -317,8 +317,8 @@ angular.module('rollcall.controllers', [])
         }
       }
 
-      console.log('$scope.classItems');
-      console.log($scope.classItems);
+      // console.log('$scope.classItems');
+      // console.log($scope.classItems);
 
       // $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
       if($scope.classItems && $scope.classItems.length>0){
