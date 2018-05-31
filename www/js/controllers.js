@@ -1269,7 +1269,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('ResultCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
     $scope.csInfos = [];
-    $rootScope.currentTitle = '结果预览';
+    $rootScope.currentTitle = '结果一览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
     $rootScope.dataFrom = '';
@@ -1586,7 +1586,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('HistoryCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
 
-    $rootScope.currentTitle = '结果预览';
+    $rootScope.currentTitle = '结果一览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
 
