@@ -1719,7 +1719,7 @@ angular.module('rollcall.controllers', [])
     // $scope.currentTabIndex = '准到';
     // $scope.currentTabIndex = '迟到';
     // $scope.currentTabIndex = '旷课';
-    $scope.currentTabType = '准到';
+    $scope.currentTabType = '迟到';
 
     $scope.cid = $stateParams.cid;
     $scope.ctime = $stateParams.ctime;
