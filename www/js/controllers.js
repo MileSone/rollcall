@@ -111,8 +111,9 @@ angular.module('rollcall.controllers', [])
     // $timeout(function(){
     //   $state.go('app.home');
     // }, 3000);
+    console.log($window);
 
-
+    $window.history.pushState(null, null,   $window.location.href);
     $rootScope.classCategoryInfos = null;
     $rootScope.currentClassCategoryInfos = [];
     $rootScope.currentTitle = '';
@@ -261,6 +262,9 @@ angular.module('rollcall.controllers', [])
 
 
   .controller('HomeCtrl', function($rootScope, $scope, $ionicPopup, $timeout, $window, $state, Login, Student) {
+
+    $window.history.forward(1);
+
     $rootScope.currentTitle = '';
     $rootScope.showTitle = false;
 
@@ -642,6 +646,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('SignListCtrl', function($rootScope,  $scope,$ionicPopup, $timeout, $state, $window, $ionicLoading, $stateParams,Student) {
     // console.log('SignListCtrl');
+
 
     $rootScope.smallTitle = 0;
     $scope.classKey =  $stateParams.id;
