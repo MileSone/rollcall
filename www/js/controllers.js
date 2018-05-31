@@ -1,6 +1,6 @@
 angular.module('rollcall.controllers', [])
 
-  .controller('MainCtrl', function($rootScope,$ionicLoading, $state, $scope, $stateParams) {
+  .controller('MainCtrl', function($rootScope,$ionicLoading,$ionicPopup, $state, $scope, $stateParams) {
 
     $rootScope.currentTitle = '';
     $rootScope.showTitle = false;
@@ -40,9 +40,42 @@ angular.module('rollcall.controllers', [])
 
     };
 
-    $rootScope.logout = function(){
+    // $rootScope.logout = function(){
+    //
+    //   $state.go('login');
+    // };
 
-      $state.go('login');
+    $rootScope.logout = function() {
+      // console.log('aaa');
+      var servicePopup = $ionicPopup.show({
+        title: '提示',
+        subTitle: '确认要退出？',
+        scope: $rootScope,
+        buttons: [
+          {
+            text: '取消',
+            type: 'button-clear button-assertive',
+            onTap: function () {
+              return 'N';
+            }
+          },
+          {
+            text: '确认',
+            type: 'button-clear button-assertive border-left',
+            onTap: function (e) {
+              return 'Y';
+            }
+          },
+        ]
+      });
+      servicePopup.then(function (res) {
+        //console.log(res);
+        if (res == 'Y') {
+          // console.log('active');
+          $state.go('login');
+
+        }
+      });
     };
 
     $rootScope.goHome = function(){
@@ -1686,7 +1719,7 @@ angular.module('rollcall.controllers', [])
     // $scope.currentTabIndex = '准到';
     // $scope.currentTabIndex = '迟到';
     // $scope.currentTabIndex = '旷课';
-    $scope.currentTabType = '准到';
+    $scope.currentTabType = '迟到';
 
     $scope.cid = $stateParams.cid;
     $scope.ctime = $stateParams.ctime;
