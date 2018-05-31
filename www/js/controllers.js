@@ -1,6 +1,6 @@
 angular.module('rollcall.controllers', [])
 
-  .controller('MainCtrl', function($rootScope,$ionicLoading, $state, $scope, $stateParams) {
+  .controller('MainCtrl', function($rootScope,$ionicLoading,$ionicPopup, $state, $scope, $stateParams) {
 
     $rootScope.currentTitle = '';
     $rootScope.showTitle = false;
@@ -40,9 +40,42 @@ angular.module('rollcall.controllers', [])
 
     };
 
-    $rootScope.logout = function(){
+    // $rootScope.logout = function(){
+    //
+    //   $state.go('login');
+    // };
 
-      $state.go('login');
+    $rootScope.logout = function() {
+      // console.log('aaa');
+      var servicePopup = $ionicPopup.show({
+        title: '提示',
+        subTitle: '确认要退出？',
+        scope: $rootScope,
+        buttons: [
+          {
+            text: '取消',
+            type: 'button-clear button-assertive',
+            onTap: function () {
+              return 'N';
+            }
+          },
+          {
+            text: '确认',
+            type: 'button-clear button-assertive border-left',
+            onTap: function (e) {
+              return 'Y';
+            }
+          },
+        ]
+      });
+      servicePopup.then(function (res) {
+        //console.log(res);
+        if (res == 'Y') {
+          // console.log('active');
+          $state.go('login');
+
+        }
+      });
     };
 
     $rootScope.goHome = function(){
@@ -1269,7 +1302,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('ResultCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
     $scope.csInfos = [];
-    $rootScope.currentTitle = '结果预览';
+    $rootScope.currentTitle = '结果一览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
     $rootScope.dataFrom = '';
@@ -1586,7 +1619,7 @@ angular.module('rollcall.controllers', [])
 
   .controller('HistoryCtrl', function($rootScope, $scope, $state, $ionicPopup,$window, $ionicLoading, $timeout, Student) {
 
-    $rootScope.currentTitle = '结果预览';
+    $rootScope.currentTitle = '结果一览';
     $rootScope.showTitle = true;
     $rootScope.smallTitle = 0;
 
