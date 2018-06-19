@@ -225,7 +225,7 @@ angular.module('rollcall.controllers', [])
             'timeOutSubmit':null
           };
 
-          console.log('submit time :', $rootScope.autoConmitQueue[key]['waitTime']);
+          // console.log('submit time :', $rootScope.autoConmitQueue[key]['waitTime']);
           // $rootScope.autoConmitQueue[key]['waitTime'] =10000;
 
           $rootScope.autoConmitQueue[key]['timeOutSubmit'] = $timeout(function(){
