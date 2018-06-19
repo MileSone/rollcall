@@ -1,6 +1,6 @@
 angular.module('rollcall.controllers', [])
 
-  .controller('MainCtrl', function($rootScope,$ionicLoading,$ionicPopup, $state, $scope, $stateParams) {
+  .controller('MainCtrl', function($rootScope,$window,$ionicLoading,$ionicPopup, $state, $scope, $stateParams, $timeout, Student) {
 
     $rootScope.currentTitle = '';
     $rootScope.showTitle = false;
@@ -9,6 +9,8 @@ angular.module('rollcall.controllers', [])
     $rootScope.classInfos = null;
     $rootScope.userName = '';
     $rootScope.password = '';
+
+
     function getDateStr(num){
       if(num<10){
         num = "0" + num;
@@ -46,7 +48,7 @@ angular.module('rollcall.controllers', [])
     // };
 
     $rootScope.logout = function() {
-      // console.log('aaa');
+
       var servicePopup = $ionicPopup.show({
         title: '提示',
         subTitle: '确认要退出？',
@@ -69,9 +71,10 @@ angular.module('rollcall.controllers', [])
         ]
       });
       servicePopup.then(function (res) {
-        //console.log(res);
+
         if (res == 'Y') {
-          // console.log('active');
+
+          $rootScope.clearSubmitTimeout();
           $state.go('login');
 
         }
@@ -102,8 +105,271 @@ angular.module('rollcall.controllers', [])
 
     $rootScope.hideLoadingToast = function () {
       $ionicLoading.hide();
-    }
+    };
 
+
+
+    $rootScope.autoConmitQueue = {};
+
+    $rootScope.resetSubmitTimeout = function(key){
+
+
+      if($rootScope.autoConmitQueue.hasOwnProperty(key)){
+        var userName =  $rootScope.autoConmitQueue[key]['userName'];
+        var waitTime =  $rootScope.autoConmitQueue[key]['waitTime'];
+
+        if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
+          $timeout.cancel($rootScope.autoConmitQueue[key]['timeOutSubmit']);
+        }
+        $rootScope.autoConmitQueue[classId]['timeOutSubmit'] = $timeout(function(){
+          $rootScope.submitClassById(key);
+        }, $rootScope.autoConmitQueue[key]['waitTime']);
+
+      }
+
+    };
+
+    $rootScope.deleteSubmitTimeout = function(key){
+      if($rootScope.autoConmitQueue.hasOwnProperty(key)){
+        if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
+          $timeout.cancel($rootScope.autoConmitQueue[key]['timeOutSubmit']);
+        }
+        delete $rootScope.autoConmitQueue[key];
+
+      }
+
+      var userName  =  $window.sessionStorage.getItem("userName");
+
+
+      var studInfos = JSON.parse($window.localStorage.getItem(userName + '_classStuInfos'));
+      if(studInfos.hasOwnProperty(key)){
+        delete studInfos[key];
+      }
+      $window.localStorage.setItem(userName + '_classStuInfos', JSON.stringify(studInfos));
+
+      var autoConmitStorane = '';
+      if($window.sessionStorage.getItem(userName + "_autoConmit")){
+        autoConmitStorane = JSON.parse($window.sessionStorage.getItem(userName + "_autoConmit"));
+      }
+      if(autoConmitStorane && autoConmitStorane.hasOwnProperty(key)) {
+        delete autoConmitStorane[key];
+        $window.sessionStorage.setItem(userName + "_autoConmit", JSON.stringify(autoConmitStorane));
+      }
+
+
+
+
+    };
+    $rootScope.clearSubmitTimeout = function(key){
+
+      var userName = '';
+      if($window.sessionStorage.getItem("userName")){
+        userName = $window.sessionStorage.getItem("userName");
+      }
+      if(userName){
+        if(!key){
+          if($rootScope.autoConmitQueue){
+            for(var key in $rootScope.autoConmitQueue){
+              if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
+                $timeout.cancel($rootScope.autoConmitQueue[key]['timeOutSubmit']);
+              }
+            }
+          }
+
+          if($window.sessionStorage.getItem(userName + "_autoConmit")){
+            $window.sessionStorage.removeItem(userName + "_autoConmit");
+          }
+        }else{
+
+          if($rootScope.autoConmitQueue.hasOwnProperty(key)){
+            if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
+              $timeout.cancel($rootScope.autoConmitQueue[key]['timeOutSubmit']);
+            }
+
+          }
+        }
+      }
+
+
+    };
+
+    $rootScope.setSubmitTimeout = function(key){
+
+
+      var autoConmitStorane = '';
+
+      var userName = '';
+      if($window.sessionStorage.getItem("userName")){
+        userName = $window.sessionStorage.getItem("userName");
+      }
+
+      if(userName){
+        if($window.sessionStorage.getItem(userName + "_autoConmit")){
+          autoConmitStorane = JSON.parse($window.sessionStorage.getItem(userName + "_autoConmit"));
+        }
+        if(autoConmitStorane && autoConmitStorane.hasOwnProperty(key)){
+          var time = autoConmitStorane[key];
+
+          if($rootScope.autoConmitQueue.hasOwnProperty(key)){
+            if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
+              $timeout.cancel($rootScope.autoConmitQueue[key]['timeOutSubmit']);
+            }
+            delete $rootScope.autoConmitQueue[key];
+          }
+
+
+
+          $rootScope.autoConmitQueue[key] = {
+            'userName':userName,
+            'waitTime':time*60*1000,
+            'timeOutSubmit':null
+          };
+
+          console.log('submit time :', $rootScope.autoConmitQueue[key]['waitTime']);
+          // $rootScope.autoConmitQueue[key]['waitTime'] =10000;
+
+          $rootScope.autoConmitQueue[key]['timeOutSubmit'] = $timeout(function(){
+
+            $rootScope.submitClassById(key);
+          }, $rootScope.autoConmitQueue[key]['waitTime']);
+        }
+      }
+
+
+    };
+
+
+
+
+
+
+
+    $rootScope.submitClassById = function(key){
+
+
+
+      var autoConmitStorane = '';
+
+      var userName = '';
+      if($window.sessionStorage.getItem("userName")){
+        userName = $window.sessionStorage.getItem("userName");
+      }
+      if(userName){
+        var classlst = JSON.parse($window.localStorage.getItem(userName + '_classFinished'));
+        // console.log(classlst);
+        var csi = JSON.parse($window.localStorage.getItem(userName + '_classStuInfos'));
+        // console.log(csi);
+        var result = [];
+        var newSts = [];
+        if(classlst && classlst.length>0){
+          for(var i = 0; i<classlst.length; i++){
+
+            var ctemp = classlst[i];
+
+            if(ctemp && ctemp==key){
+              // console.log('ctemp :', ctemp);
+              var classInfoArr =  ctemp.split("_");
+              var cId = classInfoArr[1];
+              var cdt = classInfoArr[2];
+
+              // if(cId == classId){
+              var sts = csi[ctemp]['students'];
+              var xxsts = csi[ctemp]['xxStus'];
+
+              for(var j=0; j<sts.length; j++){
+
+                var objstu= {
+
+                  "classID":cId,
+                  "studentID":sts[j]["studentID"],
+                  "sign":sts[j].sign + '',
+                  "signTime":cdt
+                };
+                newSts.push(objstu);
+
+
+              }
+
+              for(var k=0; k<xxsts.length; k++){
+
+                var objstu= {
+
+                  "classID":cId,
+                  "studentID":xxsts[k]["studentID"],
+                  "sign":3,
+                  "signTime":cdt
+                };
+                newSts.push(objstu);
+              }
+            }
+            // console.log(ctemp, ctemp);
+
+
+            // }
+          }
+
+
+
+          if(newSts.length>0){
+            Student.setStudentsCallList(newSts).then(function(response){
+
+              if(response.data && response.data ==1){
+                $scope.submitResultDone = true;
+
+                $rootScope.dataFrom = 'reload';
+
+
+                // console.log($window.localStorage.getItem($scope.userName + '_classFinished'));
+                var finishedClass = JSON.parse($window.localStorage.getItem(userName + '_classFinished'));
+                for(var i=finishedClass.length-1; i>=0; i--){
+                  if(finishedClass[i] == key){
+                    finishedClass.splice(i, 1);
+                  }
+                }
+
+                var studInfos = JSON.parse($window.localStorage.getItem(userName + '_classStuInfos'));
+                for(var i=0; i<finishedClass.length; i++){
+                  delete studInfos[key];
+                }
+
+                if(finishedClass.length>0){
+                  $window.localStorage.setItem(userName + '_classFinished', JSON.stringify(finishedClass));
+                }else{
+                  $window.localStorage.removeItem(userName + '_classFinished');
+                }
+
+
+                $window.localStorage.setItem(userName + '_classStuInfos', JSON.stringify(studInfos));
+
+                // $scope.csInfos = null;
+                $rootScope.deleteSubmitTimeout(key);
+
+
+
+
+                //数据更新后对各个页面的处理
+                //if()
+                if($state.current.name == 'app.result'){
+                  $rootScope.roloadResultPage();
+                }
+                if($state.current.name == 'app.home'){
+                  $rootScope.roloadHomePage();
+                }
+
+              }else{
+
+              }
+            }, function(error){
+
+            });
+          }
+
+
+
+        }
+      }
+
+    };
 
 
   })
@@ -111,7 +377,7 @@ angular.module('rollcall.controllers', [])
     // $timeout(function(){
     //   $state.go('app.home');
     // }, 3000);
-    console.log($window);
+    // console.log($window);
 
     $window.history.pushState(null, null,   $window.location.href);
     $rootScope.classCategoryInfos = null;
@@ -265,6 +531,8 @@ angular.module('rollcall.controllers', [])
 
     $window.history.forward(1);
 
+    // console.log($state);
+
     $rootScope.currentTitle = '';
     $rootScope.showTitle = false;
 
@@ -287,7 +555,8 @@ angular.module('rollcall.controllers', [])
 
     $scope.classItems = [];
 
-    if($scope.reLoadData){
+
+    $scope.reLoadDataFunc = function(){
       $rootScope.showLoadingToast();
 
       Login.login($scope.userName, $scope.pwd).then(function(response){
@@ -339,6 +608,9 @@ angular.module('rollcall.controllers', [])
         $scope.errorMessage = "用户名或密码有误或没有课程!";
         $rootScope.hideLoadingToast();
       });
+    }
+    if($scope.reLoadData){
+      $scope.reLoadDataFunc();
 
     }else{
       var currentclassItems  =  [];
@@ -354,47 +626,25 @@ angular.module('rollcall.controllers', [])
         }
       }
 
-      // console.log('$scope.classItems');
-      // console.log($scope.classItems);
 
-      // $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
       if($scope.classItems && $scope.classItems.length>0){
         $scope.haveListContent = '1';
       }else{
         $scope.haveListContent = '2';
       }
-      // // $scope.classItems = $rootScope.classCategoryInfos['thiSemester'];
-      // if($scope.classItems && $scope.classItems.length>0){
-      //   $scope.haveListContent = '1';
-      // }else{
-      //   $scope.haveListContent = '2';
-      // }
+
       initOtherPart();
     }
 
 
 
 
-    // $rootScope.signSelectedType = 1;
-
-
-    // console.log($window.sessionStorage.getItem($scope.userName + "_classInfos"));
-    // $scope.classItems = JSON.parse($window.sessionStorage.getItem($scope.userName + "_classInfos"));
-    // console.log('HomeCtrl');
-    // console.log($scope.classItems);
-
-
-    // $scope.haveListContent = '1';
+    $rootScope.roloadHomePage = function(){
+      $scope.reLoadDataFunc();
+    };
 
 
 
-
-
-
-
-
-
-    // console.log(teacherName);
 
     $scope.changeSignType = function(stype){
       $rootScope.signSelectedType = stype;
@@ -403,20 +653,38 @@ angular.module('rollcall.controllers', [])
 
 
 
+    $scope.showWarning = function(){
+
+      var servicePopup = $ionicPopup.show({
+        title: '提示',
+        subTitle: '超过上限，今天内不能再点名了!',
+        scope: $rootScope,
+        buttons: [
+          {
+            text: '确认',
+            type: 'button-clear button-assertive border-left',
+            onTap: function (e) {
+              return 'active';
+            }
+          },
+        ]
+      });
+      servicePopup.then(function (res) {
+
+      });
+    };
 
 
-    //console.log($rootScope.classInfos);
 
     // initOtherPart();
     function initOtherPart(){
       var classlst = $window.localStorage.getItem($scope.userName + '_classFinished');
-      // console.log('classlst');
-      // console.log(classlst);
+
       if(classlst){
         classlst = JSON.parse(classlst);
         for(var i=0; i<$scope.classItems.length; i++){
           var ckey = $rootScope.getClassKey($scope.classItems[i]['classID']);
-          // console.log(ckey);
+
           if(classlst.indexOf(ckey)!=-1){
             $scope.classItems[i]['exist'] = true;
             $scope.classItems[i]['ckey'] = ckey;
@@ -434,22 +702,76 @@ angular.module('rollcall.controllers', [])
 
       }
 
-      // console.log('next scope classsitem');
-      // console.log($scope.classItems);
     }
 
 
     $scope.gotoNextPage = function(item){
-      // console.log(item);
-      // return;
-
-
 
       if($rootScope.signSelectedType == 1){
         if(item.exist){
           $state.go('app.result', {id:item.ckey});
         }else{
-          $state.go('app.signlist', {id:item.ckey});
+
+
+
+
+          Student.checkConmitTimes(item.classID).then(function(response){
+
+             if(response && response['data'] && response['data'].hasOwnProperty('autoConmit')){
+               var autoConmit = response['data']['autoConmit'];
+
+
+               var autoConmitTime = 0;
+               if(autoConmit==1){
+                 autoConmitTime = response.data['autoConmitTime'];
+
+                 var autoConmitStorane = {};
+                 if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
+                   autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+                 }
+
+                 autoConmitStorane[item.ckey] = autoConmitTime;
+
+                 $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane));
+
+
+               }else{
+
+                 if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
+                   var autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+                   if(autoConmitStorane.hasOwnProperty(item.ckey)){
+                     delete autoConmitStorane[item.ckey];
+
+                     $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane));
+                   }
+                 }
+
+               }
+
+
+               $state.go('app.signlist', {id:item.ckey});
+
+               //$window.sessionStorage.settem("userName");
+             }else{
+
+               if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
+                 var autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+                 if(autoConmitStorane.hasOwnProperty(item.ckey)){
+                   delete autoConmitStorane[item.ckey];
+
+                   $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane));
+                 }
+               }
+
+               $scope.showWarning();
+
+
+             }
+            },
+            function(error){
+
+            });
+
         }
       }else if($rootScope.signSelectedType == 2){
 
@@ -469,8 +791,7 @@ angular.module('rollcall.controllers', [])
 
           if(classStuInfosObj){
             classStuInfos = JSON.parse(classStuInfosObj);
-            // console.log('classStuInfos');
-            // console.log(classStuInfos);
+
           }
 
           if(classStuInfos.hasOwnProperty(ckey2)){
@@ -479,8 +800,59 @@ angular.module('rollcall.controllers', [])
             $scope.showConfirm();
 
           }else{
-            $scope.currentActiveItem = null;
-            $scope.batchSignStudents(item);
+
+            Student.checkConmitTimes(item.classID).then(function(response){
+                if(response && response.data && response.data.hasOwnProperty('autoConmit')){
+                  var autoConmit = response.data[autoConmit];
+                  var autoConmitTime = 0;
+                  if(autoConmit==1){
+                    autoConmitTime = response.data[autoConmitTime];
+                    var autoConmitStorane = '';
+                    if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
+                      autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+                    }
+                    autoConmitStorane[item.ckey] = autoConmitTime;
+                    $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane))
+
+                  }else{
+
+                    if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
+                      var autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+                      if(autoConmitStorane.hasOwnProperty(item.ckey)){
+                        delete autoConmitStorane[item.ckey];
+
+                        $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane));
+                      }
+                    }
+
+                  }
+
+
+                  $scope.currentActiveItem = null;
+                  $scope.batchSignStudents(item);
+
+                  //$window.sessionStorage.settem("userName");
+                }else{
+
+                  if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
+                    var autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+                    if(autoConmitStorane.hasOwnProperty(item.ckey)){
+                      delete autoConmitStorane[item.ckey];
+
+                      $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane));
+                    }
+                  }
+
+                  $scope.showWarning();
+
+
+                }
+              },
+              function(error){
+
+              });
+
+
 
           }
 
@@ -492,6 +864,9 @@ angular.module('rollcall.controllers', [])
 
     };
 
+    $scope.checkClassState = function(){
+
+    };
     var nh = 0;
     $scope.$watch('$viewContentLoaded',function(){
 
@@ -508,7 +883,7 @@ angular.module('rollcall.controllers', [])
 
 
     $scope.showConfirm = function(){
-      // console.log('aaa');
+
       var servicePopup = $ionicPopup.show({
         title: '提示',
         subTitle: '此课程已经进行常规点名，并未完成，确认进行批量点名，并丢弃之前数据么？',
@@ -531,9 +906,9 @@ angular.module('rollcall.controllers', [])
         ]
       });
       servicePopup.then(function (res) {
-        //console.log(res);
+
         if (res == 'active') {
-          // console.log('active');
+
           $scope.batchSignStudents($scope.currentActiveItem);
 
         }
@@ -617,6 +992,14 @@ angular.module('rollcall.controllers', [])
           $window.localStorage.setItem($scope.userName + '_classFinished', jsonFinishStr);
 
           // console.log(item.ckey);
+
+          // add result
+          $rootScope.setSubmitTimeout(item.ckey);
+
+
+          //item.classID
+
+
           $state.go('app.result', {id:item.ckey});
 
         }
@@ -666,22 +1049,6 @@ angular.module('rollcall.controllers', [])
     $scope.userName =  $window.sessionStorage.getItem("userName");
     $scope.classItems = JSON.parse($window.sessionStorage.getItem($scope.userName + "_classInfos"));
 
-    // console.log('$scope.classItems');
-    // console.log($scope.classItems);
-    // $scope.person ={
-    //   'st':"\u6c11\u65cf\u4e50\u5668\u6f14\u594f"
-    // };
-
-    //
-    // $scope.students = [{
-    //   stuName:'sdfsf'
-    // },{
-    //   stuName:'sdfsf'
-    // },{
-    //   stuName:'sdfsf'
-    // },{
-    //   stuName:'sdfsf'
-    // }];
 
     var classStuInfos = {};
     var classStuInfosObj = $window.localStorage.getItem($scope.userName + '_classStuInfos');
@@ -730,7 +1097,7 @@ angular.module('rollcall.controllers', [])
 
             delete classStuInfos[ckey];
             $window.localStorage.setItem($scope.userName + '_classStuInfos', JSON.stringify(classStuInfos));
-           // console.log(classStuInfos);
+            // console.log(classStuInfos);
             $state.go('app.home');
           }
           //console.log('---active');
@@ -795,8 +1162,7 @@ angular.module('rollcall.controllers', [])
               return 1;
             }
           });
-          // console.log('$scope.students2');
-          // console.log($scope.students);
+
           for(var i=0; i<$scope.students.length; i++){
             $scope.students[i]['sign'] = -1;
           }
@@ -840,14 +1206,11 @@ angular.module('rollcall.controllers', [])
 
     $scope.nextStudent = function(){
 
-      // console.log('$scope.nextStudent');
-      // console.log($scope.isStudentAnimating);
+
       if(!$scope.isStudentAnimating){
         $scope.isStudentAnimating = true;
         var owl = $("#person_name_list").data('owlCarousel');
-        //console.log("index : ", owl.currentItem);
 
-        //console.log('nextStudent', $scope.students[owl.currentItem]);
         if($scope.students[owl.currentItem]['sign']==-1){
           setItemSign(owl.currentItem, 0);
         }
@@ -860,10 +1223,10 @@ angular.module('rollcall.controllers', [])
 
 
         $scope.currentIndex = owl.currentItem;
-        // console.log('$scope.nextStudentcurrentIndex:',$scope.currentIndex);
+
 
         $scope.currentVal = $scope.students[owl.currentItem]['sign'];
-        // console.log('index2: ' ,$scope.currentIndex );
+
         changeControllerBtnVisible();
 
         $timeout(function(){
@@ -880,13 +1243,12 @@ angular.module('rollcall.controllers', [])
       if(!$scope.isStudentAnimating){
         $scope.isStudentAnimating = true;
         var owl = $("#person_name_list").data('owlCarousel');
-        //console.log("index : ", owl.currentItem);
+
         owl.prev();
 
         $scope.currentIndex = owl.currentItem;
         $scope.currentVal = $scope.students[owl.currentItem]['sign'];
-        // console.log($scope.students[owl.currentItem]['sign']);
-        // console.log('index2: ' ,$scope.currentIndex );
+
         changeControllerBtnVisible();
 
         $timeout(function(){
@@ -958,8 +1320,8 @@ angular.module('rollcall.controllers', [])
       temp[ckey].students[index]['sign'] = val;
       //if($scope.currentIndex == index){
       // console.log('$scope.passSignNum :', $scope.passSignNum);
-        temp[ckey]['currentIdx'] = $scope.passSignNum;
-     // }
+      temp[ckey]['currentIdx'] = $scope.passSignNum;
+      // }
       var jsonStr = JSON.stringify(temp);
       //console.log(jsonStr);
       $window.localStorage.setItem($scope.userName + '_classStuInfos', jsonStr);
@@ -1050,8 +1412,8 @@ angular.module('rollcall.controllers', [])
     // $scope.currentTabIndex = '旷课';
     $scope.currentTabType = '1';
 
-      // $scope.cid = $stateParams.cid;
-      // $scope.ctime = $stateParams.ctime;
+    // $scope.cid = $stateParams.cid;
+    // $scope.ctime = $stateParams.ctime;
 
 
 
@@ -1123,7 +1485,7 @@ angular.module('rollcall.controllers', [])
 
     $scope.userName =  $window.sessionStorage.getItem("userName");
     var csi = JSON.parse($window.localStorage.getItem($scope.userName + '_classStuInfos'));
-   // var key = $rootScope.getClassKey($scope.classID);
+    // var key = $rootScope.getClassKey($scope.classID);
     $scope.students = csi[$scope.ckey]['students'];
 
 
@@ -1151,92 +1513,26 @@ angular.module('rollcall.controllers', [])
       $scope.currentTabType = status;
 
 
-    }
-    // $scope.filterSignYes = function(){
-    //   $scope.search = '';
-    //   if(!$scope.signYesActive){
-    //     $scope.signYesActive = true;
-    //   }else{
-    //     if($scope.signNoActive){
-    //       $scope.signYesActive = false;
-    //     }else{
-    //       return false;
-    //     }
-    //
-    //   }
-    //   if($scope.signNoActive && $scope.signYesActive){
-    //     $scope.signtype = 3;
-    //   }else{
-    //     $scope.signtype = 2;
-    //   }
-    // };
+    };
 
-    // $scope.filterSignNo = function(){
-    //   $scope.search = '';
-    //   if(!$scope.signNoActive){
-    //     $scope.signNoActive = true;
-    //   }else{
-    //     if($scope.signYesActive){
-    //       $scope.signNoActive = false;
-    //     }else{
-    //       return false;
-    //     }
-    //   }
-    //   if($scope.signNoActive && $scope.signYesActive){
-    //     $scope.signtype = 3;
-    //   }else{
-    //     $scope.signtype = 1;
-    //   }
-    // };
-    // Student.getStudentsList().then(function(){
-    //
-    // }, function(){
-    //
-    // });
-
-    // function resizeListContent(){
-    //
-    //
-    //
-    //   $timeout(function(){
-    //     console.log('resizeListContent');
-    //     var oh = $('#main-view').height();
-    //     var sht = $('#state_top_content').height();
-    //     console.log('sht : ', sht);
-    //     // $timeout(function(){
-    //     //   var sht2 = $('#state_top_content').height();
-    //     //   console.log('sht : ', sht2);
-    //     // },500);
-    //
-    //     var nh = oh - sht-70 -20 ;
-    //     console.log(oh, sht);
-    //     $('#buttom_state_warp').height(nh);
-    //     $('#buttom_state_warp').niceScroll({cursorcolor:"#732729", cursorwidth:"5px"});
-    //
-    //   },500);
-    //
-    // }
     $scope.$watch('$viewContentLoaded',function(){
       // 初始化地图
-      // console.log('SignStateCtrl');
+
       if(ENVIRONMENT == 'prod'){
         // console.log('prod');
         $('#roll_content_status').height($(window).height());
       }else{
         // console.log('test');
       }
-      // console.log($('#home_content').height());
-      // console.log($(window).height());
-      //resizeListContent();
+
 
     });
 
 
-    // $timeout(function(){
-    //   resizeListContent();
-    // },1000);
 
     $scope.goResult = function(){
+      // add result
+      $rootScope.setSubmitTimeout($scope.ckey);
       $state.go('app.result');
     }
   })
@@ -1324,6 +1620,9 @@ angular.module('rollcall.controllers', [])
     function initCsInfos(){
       $scope.csInfos = [];
       var fcsArr = $window.localStorage.getItem($scope.userName + '_classFinished');
+      // var autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+
+
       if(fcsArr){
         fcs = JSON.parse(fcsArr);
         csi = JSON.parse($window.localStorage.getItem($scope.userName + '_classStuInfos'));
@@ -1332,9 +1631,15 @@ angular.module('rollcall.controllers', [])
             "id" : fcs[i],
             "className" : csi[fcs[i]]['className'],
             "updateDate" : csi[fcs[i]]['updateDate']
-          }
+          };
           $scope.csInfos.push(obj);
+
+          // if(autoConmitStorane.hasOwnProperty(fcs[i])){
+          //   var classId = '';
+          //   //$rootScope.autoConmitQueue
+          // }
         }
+
       }
 
 
@@ -1342,6 +1647,8 @@ angular.module('rollcall.controllers', [])
     initCsInfos();
 
     $scope.gotoStatePate = function(id){
+
+      $rootScope.clearSubmitTimeout(id);
       $state.go('app.signstate',{id:id});
     };
 
@@ -1357,9 +1664,7 @@ angular.module('rollcall.controllers', [])
         }
       }
       delete csi[skey];
-      // console.log("deleteClassItem");
-      // console.log(fcs);
-      // console.log(csi);
+
       if(fcs.length == 0){
         $scope.resultMessage = '您的课程已清空!';
         $window.localStorage.removeItem($scope.userName + '_classFinished');
@@ -1408,6 +1713,18 @@ angular.module('rollcall.controllers', [])
 
 
 
+
+
+
+    $rootScope.roloadResultPage = function(){
+      initCsInfos();
+
+      // $scope.csInfos = null;
+
+      console.log('$scope.csInfos');
+      console.log($scope.csInfos);
+      $scope.resultMessage = '课程提交成功!';
+    };
 
     $scope.submitLocalStorage = function(){
       var classlst = JSON.parse($window.localStorage.getItem($scope.userName + '_classFinished'));
@@ -1497,12 +1814,23 @@ angular.module('rollcall.controllers', [])
             $window.localStorage.removeItem($scope.userName + '_classFinished');
 
             $window.localStorage.setItem($scope.userName + '_classStuInfos', JSON.stringify(studInfos));
+
+            if($rootScope.autoConmitQueue){
+              for(var key in $rootScope.autoConmitQueue){
+                if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
+                  $timeout.cancel($rootScope.autoConmitQueue[key]['timeOutSubmit']);
+                }
+              }
+            }
+            $rootScope.autoConmitQueue = {};
+            $window.sessionStorage.removeItem($scope.userName + '_autoConmit');
+
             // $window.sessionStorage.removeItem($scope.userName + "_classInfos");
             $scope.csInfos = null;
             $scope.resultMessage = '课程提交成功!';
 
 
-;
+            ;
           }else{
             $scope.submitResultDone = false;
             // $scope.resultMessage = '课程提交失败, 请稍后再试。';

@@ -80,41 +80,73 @@ angular.module('rollcall.services', [])
   return service;
 })
 
+
+
+
   .factory('Student', function($http,$rootScope,SERVER_URL,REST_SERVICES,$log,$window) {
-    // Might use a resource here that returns a JSON array
+      // Might use a resource here that returns a JSON array
 
-    var service = {};
+      var service = {};
+      service.getStudentsList = function (classid) {
+        var apiURL = SERVER_URL.path + REST_SERVICES.getStudentsList;
 
-    service.getStudentsList = function (classid) {
-      var apiURL = SERVER_URL.path + REST_SERVICES.getStudentsList;
+        // console.log('apiURL : ', apiURL);
 
-      // console.log('apiURL : ', apiURL);
-
-      var data  = {
-        'classID' : classid
-      };
-      return $http({
-        url: apiURL,
-        method: 'POST',
-         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        transformRequest: function(obj) {
+        var data  = {
+          'classID' : classid
+        };
+        return $http({
+          url: apiURL,
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          transformRequest: function(obj) {
             var str = [];
             for(var p in obj)
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
-        },
-        data: data
-      }).then(function (response) {
+          },
+          data: data
+        }).then(function (response) {
 
-        return response;
-      }, function (error) {
-        console.log('get list data error');
-        console.log(error);
-        return error;
-      });
+          return response;
+        }, function (error) {
+          console.log('get list data error');
+          console.log(error);
+          return error;
+        });
 
 
-    };
+      };
+      service.checkConmitTimes = function (classid) {
+        var apiURL = SERVER_URL.path + REST_SERVICES.checkConmitTimes;
+
+        // console.log('apiURL : ', apiURL);
+
+        var data  = {
+          'classID' : classid
+        };
+        return $http({
+          url: apiURL,
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+          },
+          data: data
+        }).then(function (response) {
+
+          return response;
+        }, function (error) {
+          console.log('get list data error');
+          console.log(error);
+          return error;
+        });
+
+
+      };
 
 
     service.getStatusByClassID = function (classid, callTime) {

@@ -74,7 +74,8 @@ var app = angular.module('rollcall', ['ionic', 'rollcall.controllers', 'rollcall
     changePwd: '/RollCallService/changePwd',
     getStudentsList: '/RollCallService/getStudentsList',
     getStatusByClassID: '/RollCallService/getStatusByClassID',
-    setStudentsCallList: '/RollCallService/setStudentsCallList'
+    setStudentsCallList: '/RollCallService/setStudentsCallList',
+    checkConmitTimes: '/RollCallService/checkConmitTimes'
   })
 
 
