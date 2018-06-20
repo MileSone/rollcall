@@ -212,8 +212,8 @@ angular.module('rollcall.controllers', [])
           var time = parseInt(autoConmitStorane[key]);
 
           // time = 1; // test time
-          // console.log('time: ', time);
-          // console.log('time: ', typeof(time));
+          console.log('time: ', time);
+          // console.log('time : ', typeof(time));
 
           if($rootScope.autoConmitQueue.hasOwnProperty(key)){
             if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
@@ -252,7 +252,7 @@ angular.module('rollcall.controllers', [])
 
 
 
-
+      console.log('submitClassById :', key);
 
       var userName = '';
       if($window.sessionStorage.getItem("userName")){
