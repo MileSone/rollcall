@@ -208,7 +208,13 @@ angular.module('rollcall.controllers', [])
           autoConmitStorane = JSON.parse($window.sessionStorage.getItem(userName + "_autoConmit"));
         }
         if(autoConmitStorane && autoConmitStorane.hasOwnProperty(key)){
-          var time = Number(autoConmitStorane[key]);
+
+          // var time = autoConmitStorane[key];
+          var time = parseInt(autoConmitStorane[key]);
+
+          // time = 1; // test time
+          console.log('time: ', time);
+          // console.log('time : ', typeof(time));
 
           if($rootScope.autoConmitQueue.hasOwnProperty(key)){
             if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
@@ -225,8 +231,6 @@ angular.module('rollcall.controllers', [])
             'timeOutSubmit':null
           };
 
-          // console.log('submit time :', $rootScope.autoConmitQueue[key]['waitTime']);
-          // $rootScope.autoConmitQueue[key]['waitTime'] =10000;
 
           $rootScope.autoConmitQueue[key]['timeOutSubmit'] = $timeout(function(){
 
@@ -248,7 +252,8 @@ angular.module('rollcall.controllers', [])
 
 
 
-      var autoConmitStorane = '';
+
+      console.log('submitClassById :', key);
 
       var userName = '';
       if($window.sessionStorage.getItem("userName")){
@@ -802,23 +807,32 @@ angular.module('rollcall.controllers', [])
           }else{
 
             Student.checkConmitTimes(item.classID).then(function(response){
+              // console.log('checkConmitTimes');
+              // console.log(response);
                 if(response && response.data && response.data.hasOwnProperty('autoConmit')){
-                  var autoConmit = response.data[autoConmit];
+                  var autoConmit = response.data['autoConmit'];
                   var autoConmitTime = 0;
-                  if(autoConmit==1){
-                    autoConmitTime = response.data[autoConmitTime];
-                    var autoConmitStorane = '';
+                  if(autoConmit=='1'){
+
+                    // console.log('autoConmit :', autoConmit);
+                    autoConmitTime = response.data['autoConmitTime'];
+                    var autoConmitStorane = null;
                     if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
                       autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
+                    }else{
+                      autoConmitStorane = {};
                     }
+
                     autoConmitStorane[item.ckey] = autoConmitTime;
+
+
                     $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane))
 
                   }else{
 
                     if($window.sessionStorage.getItem($scope.userName + "_autoConmit")){
                       var autoConmitStorane = JSON.parse($window.sessionStorage.getItem($scope.userName + "_autoConmit"));
-                      if(autoConmitStorane.hasOwnProperty(item.ckey)){
+                      if(autoConmitStorane && autoConmitStorane.hasOwnProperty(item.ckey)){
                         delete autoConmitStorane[item.ckey];
 
                         $window.sessionStorage.setItem($scope.userName + "_autoConmit", JSON.stringify(autoConmitStorane));
@@ -994,6 +1008,8 @@ angular.module('rollcall.controllers', [])
           // console.log(item.ckey);
 
           // add result
+
+          // console.log(11111);
           $rootScope.setSubmitTimeout(item.ckey);
 
 
