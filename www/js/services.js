@@ -202,13 +202,7 @@ angular.module('rollcall.services', [])
 
 
     };
-
-
-
-
-
-
-
+    
     return service;
   });
 

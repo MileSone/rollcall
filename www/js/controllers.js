@@ -208,7 +208,7 @@ angular.module('rollcall.controllers', [])
           autoConmitStorane = JSON.parse($window.sessionStorage.getItem(userName + "_autoConmit"));
         }
         if(autoConmitStorane && autoConmitStorane.hasOwnProperty(key)){
-          var time = autoConmitStorane[key];
+          var time = Number(autoConmitStorane[key]);
 
           if($rootScope.autoConmitQueue.hasOwnProperty(key)){
             if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
