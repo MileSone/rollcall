@@ -1197,7 +1197,7 @@ angular.module('rollcall.controllers', [])
             "updateDate":$scope.dt,
             "students":$scope.students,
             "xxStus":xxStus,
-            "currentIdx":$scope.currentIndex
+            "currentIdx":-1
 
           };
 
@@ -1327,6 +1327,8 @@ angular.module('rollcall.controllers', [])
 
     function setItemSign(index, val){
       //console.log(index);
+      // console.log('setItemSign');
+      // console.log(index, val);
       $scope.students[index]['sign'] = val;
       // console.log('setItemSign :', val);
 
@@ -1381,9 +1383,15 @@ angular.module('rollcall.controllers', [])
 
           var owl = $("#person_name_list").data('owlCarousel');
 
+          // console.log('index : ', index);
           owl.goTo(index);
           $scope.currentIndex = index;
           changeControllerBtnVisible();
+        }else{
+          index = 0;
+          var owl = $("#person_name_list").data('owlCarousel');
+          owl.goTo(index);
+          $scope.currentIndex = index;
         }
 
       },300);
