@@ -214,7 +214,6 @@ angular.module('rollcall.controllers', [])
 
           // time = 1; // test time
           console.log('time: ', time);
-          // console.log('time : ', typeof(time));
 
           if($rootScope.autoConmitQueue.hasOwnProperty(key)){
             if($rootScope.autoConmitQueue[key]['timeOutSubmit']){
