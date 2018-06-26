@@ -1197,7 +1197,7 @@ angular.module('rollcall.controllers', [])
             "updateDate":$scope.dt,
             "students":$scope.students,
             "xxStus":xxStus,
-            "currentIdx":-1
+            "currentIdx": $scope.currentIndex
 
           };
 
