@@ -1134,7 +1134,7 @@ angular.module('rollcall.controllers', [])
       $scope.students = classStuInfos[ckey]['students'];
       $scope.currentIndex = classStuInfos[ckey]['currentIdx'];
       $scope.passSignNum =classStuInfos[ckey]['currentIdx'];
-      $scope.currentVal = classStuInfos[ckey]['students'][0]['sign'];
+      $scope.currentVal = -1;
       $scope.className = classStuInfos[ckey]['className'];
       $rootScope.currentTitle = $scope.className;
 
@@ -1146,6 +1146,7 @@ angular.module('rollcall.controllers', [])
 
 
       $scope.passSignNum = $scope.passSignNum + 1;
+
       initSignList($scope.passSignNum);
 
     }else{
@@ -1276,6 +1277,7 @@ angular.module('rollcall.controllers', [])
 
 
     $scope.setSignSwitch = false;
+
     $scope.setSign = function(val){
 
       if(!$scope.setSignSwitch){
@@ -1790,7 +1792,7 @@ angular.module('rollcall.controllers', [])
 
               "classID":cId,
               "studentID":xxsts[k]["studentID"],
-              "sign":3,
+              "sign":"3",
               "signTime":cdt
             };
             newSts.push(objstu);
@@ -1800,6 +1802,10 @@ angular.module('rollcall.controllers', [])
 
 
         }
+
+        // console.log(newSts);
+        //
+        // return;
 
         $ionicLoading.show({
           template: '<ion-spinner icon="bubbles" class="spinner-balanced"></ion-spinner><br ><span style="color:#732729;">正在上传信息，请勿断开连接...</span>',
