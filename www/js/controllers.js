@@ -1374,7 +1374,7 @@ angular.module('rollcall.controllers', [])
 
     }
     function initSignList(index){
-      // console.log('initSignList');
+
       var options = {autoPlay: false, pagination:false, autoHeight:true, touchDrag:false, mouseDrag:false, slideSpeed : 300,paginationSpeed : 300, items:1, singleItem:true};
 
       $timeout(function(){
