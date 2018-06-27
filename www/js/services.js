@@ -183,16 +183,16 @@ angular.module('rollcall.services', [])
 
     service.setStudentsCallList = function (list) {
       var apiURL = SERVER_URL.path + REST_SERVICES.setStudentsCallList;
-
+var tempObj = {"uploadInfo":list};
       // console.log('apiURL : ', apiURL);
 //edit by wangyan 20170407
       return $http({
         url: apiURL,
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		data:{"uploadInfo":list}
+		    data: JSON.stringify(tempObj)
       }).then(function (response) {
-
+        console.log(response);
         return response;
       }, function (error) {
         console.log('get list data error');
@@ -202,7 +202,7 @@ angular.module('rollcall.services', [])
 
 
     };
-    
+
     return service;
   });
 

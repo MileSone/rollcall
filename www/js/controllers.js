@@ -281,7 +281,9 @@ angular.module('rollcall.controllers', [])
               var xxsts = csi[ctemp]['xxStus'];
 
               for(var j=0; j<sts.length; j++){
-
+                if(sts[j].sign === -1){
+                  sts[j].sign = 0;
+                }
                 var objstu= {
 
                   "classID":cId,
@@ -317,7 +319,7 @@ angular.module('rollcall.controllers', [])
           if(newSts.length>0){
             Student.setStudentsCallList(newSts).then(function(response){
 
-              if(response.data && response.data ==1){
+              if(response.data && response.data.statueCode == "1"){
                 $scope.submitResultDone = true;
 
                 $rootScope.dataFrom = 'reload';
@@ -1198,7 +1200,7 @@ angular.module('rollcall.controllers', [])
             "updateDate":$scope.dt,
             "students":$scope.students,
             "xxStus":xxStus,
-            "currentIdx":-1
+            "currentIdx": -1
 
           };
 
@@ -1375,7 +1377,6 @@ angular.module('rollcall.controllers', [])
       // console.log('initSignList');
       var options = {autoPlay: false, pagination:false, autoHeight:true, touchDrag:false, mouseDrag:false, slideSpeed : 300,paginationSpeed : 300, items:1, singleItem:true};
 
-      console.log('initSignList');
       $timeout(function(){
         $('#person_name_list').owlCarousel(options);
         if(index && index!=0){
@@ -1833,7 +1834,7 @@ angular.module('rollcall.controllers', [])
 
           $ionicLoading.hide(response);
           // console.log(response);
-          if(response.data && response.data ==1){
+          if(response.data && response.data.statueCode == "1"){
             $scope.submitResultDone = true;
 
             $rootScope.dataFrom = 'reload';
