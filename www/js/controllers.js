@@ -281,7 +281,9 @@ angular.module('rollcall.controllers', [])
               var xxsts = csi[ctemp]['xxStus'];
 
               for(var j=0; j<sts.length; j++){
-
+                if(sts[j].sign === -1){
+                  sts[j].sign = 0;
+                }
                 var objstu= {
 
                   "classID":cId,
@@ -317,7 +319,7 @@ angular.module('rollcall.controllers', [])
           if(newSts.length>0){
             Student.setStudentsCallList(newSts).then(function(response){
 
-              if(response.data && response.data ==1){
+              if(response.data && response.data.statueCode == "1"){
                 $scope.submitResultDone = true;
 
                 $rootScope.dataFrom = 'reload';
@@ -1198,8 +1200,7 @@ angular.module('rollcall.controllers', [])
             "updateDate":$scope.dt,
             "students":$scope.students,
             "xxStus":xxStus,
-            "currentIdx": $scope.currentIndex
-
+            "currentIdx": -1
           };
 
           classStuInfos[ckey] = obj;
@@ -1825,7 +1826,7 @@ angular.module('rollcall.controllers', [])
 
           $ionicLoading.hide(response);
           // console.log(response);
-          if(response.data && response.data ==1){
+          if(response.data && response.data.statueCode == "1"){
             $scope.submitResultDone = true;
 
             $rootScope.dataFrom = 'reload';
