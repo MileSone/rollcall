@@ -1198,7 +1198,7 @@ angular.module('rollcall.controllers', [])
             "updateDate":$scope.dt,
             "students":$scope.students,
             "xxStus":xxStus,
-            "currentIdx": $scope.currentIndex
+            "currentIdx":-1
 
           };
 
@@ -1375,25 +1375,33 @@ angular.module('rollcall.controllers', [])
       // console.log('initSignList');
       var options = {autoPlay: false, pagination:false, autoHeight:true, touchDrag:false, mouseDrag:false, slideSpeed : 300,paginationSpeed : 300, items:1, singleItem:true};
 
+      console.log('initSignList');
       $timeout(function(){
         $('#person_name_list').owlCarousel(options);
         if(index && index!=0){
 
-          // console.log('index!=0 :', index);
           $scope.currentIndex = index;
           $scope.passSignNum = index;
 
-          var owl = $("#person_name_list").data('owlCarousel');
+          $timeout(function(){
+            var owl = $("#person_name_list").data('owlCarousel');
 
-          // console.log('index : ', index);
-          owl.goTo(index);
+            // console.log('index : ', index);
+            owl.goTo(index);
+          }, 100);
+
+
           $scope.currentIndex = index;
           changeControllerBtnVisible();
         }else{
           index = 0;
-          var owl = $("#person_name_list").data('owlCarousel');
-          owl.goTo(index);
-          $scope.currentIndex = index;
+          $timeout(function(){
+            var owl = $("#person_name_list").data('owlCarousel');
+
+            owl.goTo(index);
+            $scope.currentIndex = index;
+          }, 100);
+
         }
 
       },300);
