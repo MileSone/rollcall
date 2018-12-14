@@ -512,11 +512,11 @@
   color:#fff;
   top:50%;
   z-index: 10;
-  margin-top:-10px;
+  margin-top:-20px;
 }
 
 #person_name_list{
-  height:40px;
+  height:60px;
   overflow: hidden;
 }
 
@@ -614,15 +614,29 @@
 
 .person_name{
   font-size: 48px;
-  margin-top:-24px;
+  margin-top:-34px;
 }
 
 #person_name_list{
-  height:48px;
+  height:68px;
   overflow: hidden;
 }
 .person_name_inner{
+  position: relative;
   line-height: 48px;
+}
+.person_Number{
+  font-size: 20px;
+  line-height: 20px;
+  margin-top: -3px;
+  padding-bottom: 3px;
+  /*position: absolute;*/
+  /*top:-20px;*/
+  /*left:0px;*/
+  /*width:100%;*/
+  /*text-align:center;*/
+  /*font-size: 12px;*/
+  /*z-index: 1;*/
 }
 
 .controll_btn{
@@ -656,14 +670,14 @@
 
   .person_name{
     font-size: 40px;
-    margin-top:-20px;
+    margin-top:-24px;
   }
   .person_name_inner{
     line-height: 40px;
   }
 
   #person_name_list{
-    height:40px;
+    height:60px;
     overflow: hidden;
   }
 
@@ -696,10 +710,10 @@
   }
   .person_name{
     font-size: 36px;
-    margin-top:-18px;
+    margin-top:-24px;
   }
   #person_name_list{
-    height:36px;
+    height:56px;
     overflow: hidden;
   }
   .person_name_inner{
@@ -724,7 +738,7 @@
   }
   .person_name{
     font-size: 32px;
-    margin-top:-18px;
+    margin-top:-22px;
   }
 
   .person_name_inner{
