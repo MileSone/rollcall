@@ -11,12 +11,22 @@ angular.module('rollcall.controllers', [])
     $rootScope.password = '';
 
 
+
+
     function getDateStr(num){
       if(num<10){
         num = "0" + num;
       }
       return num;
     }
+
+    $rootScope.getTimeStr = function(){
+      var _date = new Date();
+      var _hour = getDateStr(_date.getHours());
+      var _min = getDateStr(_date.getMinutes());
+      var _ss = getDateStr(_date.getSeconds());
+      return _hour + ":" + _min + ":" + _ss;
+    };
 
     var mySplashScreen = document.getElementById('custom-overlay');
     setTimeout(function(){
@@ -33,10 +43,11 @@ angular.module('rollcall.controllers', [])
       var _y = _date.getFullYear();
       var _m = getDateStr(_date.getMonth()+1);
       var _d = getDateStr(_date.getDate());
-      var _hour = getDateStr(_date.getHours());
-      var _min = getDateStr(_date.getMinutes());
-      var _ss = getDateStr(_date.getSeconds());
-      return _y + "/" + _m + "/" +_d + " " + _hour + ":" + _min + ":" + _ss;
+      return _y + "/" + _m + "/" +_d;
+      // var _hour = getDateStr(_date.getHours());
+      // var _min = getDateStr(_date.getMinutes());
+      // var _ss = getDateStr(_date.getSeconds());
+      // return _y + "/" + _m + "/" +_d + "-" + _hour + ":" + _min + ":" + _ss;
     };
 
 
@@ -279,6 +290,7 @@ angular.module('rollcall.controllers', [])
               var cId = classInfoArr[1];
               var cdt = classInfoArr[2];
 
+              var updateTime = csi[ctemp]['updateDate'];
               // if(cId == classId){
               var sts = csi[ctemp]['students'];
               var xxsts = csi[ctemp]['xxStus'];
@@ -292,7 +304,7 @@ angular.module('rollcall.controllers', [])
                   "classID":cId,
                   "studentID":sts[j]["studentID"],
                   "sign":sts[j].sign + '',
-                  "signTime":cdt
+                  "signTime":updateTime
                 };
                 newSts.push(objstu);
 
@@ -306,7 +318,7 @@ angular.module('rollcall.controllers', [])
                   "classID":cId,
                   "studentID":xxsts[k]["studentID"],
                   "sign":3,
-                  "signTime":cdt
+                  "signTime":updateTime
                 };
                 newSts.push(objstu);
               }
@@ -976,7 +988,7 @@ angular.module('rollcall.controllers', [])
           var obj = {
             "classID":item.classID,
             "className":item.className,
-            "updateDate":dt,
+            "updateDate":dt + ' ' + $rootScope.getTimeStr(),
             "students":students,
             "xxStus":xxStus,
             "currentIdx":students.length-1
@@ -1197,10 +1209,11 @@ angular.module('rollcall.controllers', [])
           }
 
 
+
           var obj = {
             "classID":$scope.classID,
             "className":$scope.className,
-            "updateDate":$scope.dt,
+            "updateDate":$scope.dt + ' ' + $rootScope.getTimeStr(),
             "students":$scope.students,
             "xxStus":xxStus,
             "currentIdx": -1
@@ -1779,6 +1792,7 @@ angular.module('rollcall.controllers', [])
           var cId = classInfoArr[1];
           var cdt = classInfoArr[2];
           // console.log(ctemp, ctemp);
+          var updateTime = csi[ctemp]['updateDate'];
 
           var sts = csi[ctemp]['students'];
           var xxsts = csi[ctemp]['xxStus'];
@@ -1790,7 +1804,7 @@ angular.module('rollcall.controllers', [])
               "classID":cId,
               "studentID":sts[j]["studentID"],
               "sign":sts[j].sign + '',
-              "signTime":cdt
+              "signTime":updateTime
             };
             newSts.push(objstu);
 
@@ -1804,7 +1818,7 @@ angular.module('rollcall.controllers', [])
               "classID":cId,
               "studentID":xxsts[k]["studentID"],
               "sign":"3",
-              "signTime":cdt
+              "signTime":updateTime
             };
             newSts.push(objstu);
 
