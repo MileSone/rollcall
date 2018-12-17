@@ -33,7 +33,10 @@ angular.module('rollcall.controllers', [])
       var _y = _date.getFullYear();
       var _m = getDateStr(_date.getMonth()+1);
       var _d = getDateStr(_date.getDate());
-      return _y + "/" + _m + "/" +_d;
+      var _hour = getDateStr(_date.getHours());
+      var _min = getDateStr(_date.getMinutes());
+      var _ss = getDateStr(_date.getSeconds());
+      return _y + "/" + _m + "/" +_d + " " + _hour + ":" + _min + ":" + _ss;
     };
 
 
